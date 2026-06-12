@@ -62,7 +62,7 @@
 - Kubernetes: 포트와 실행 환경 상태 → manifest로 선언
 - AWS/Terraform: 외부 의존성과 실행 환경 → 관리형 리소스로 확장
 
-## 막힘 기록
+## Blocker Log
 
 | 증상 | 확인한 것 |
 |---|---|

@@ -47,7 +47,7 @@
 - GitHub에 token이 올라가면 Secret Scanning이 탐지하지만, 올라간 순간 이미 노출된 것으로 간주하고 즉시 폐기 후 재발급한다.
 - 참고: https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html
 
-## 막힘 기록
+## Blocker Log
 
 | 증상 | 확인한 것 |
 |---|---|
