@@ -1,6 +1,6 @@
 # cloud-native-devops-2026
 
-KDT DevOps 과정 실습 기록 저장소
+KDT 클라우드 네이티브 과정 실습 기록 저장소
 
 ## 확인 기록
 
