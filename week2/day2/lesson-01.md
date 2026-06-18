@@ -56,7 +56,7 @@ docker run -d --name paperclip-pg16 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB
 | `--name paperclip-pg16` | container에 이름을 지정한다. 이름이 없으면 Docker가 랜덤 이름을 붙인다. |
 | `-e POSTGRES_PASSWORD=postgres` | 환경변수 주입. PostgreSQL superuser 비밀번호를 설정한다. 필수값이며 없으면 container가 시작되지 않는다. |
 | `-e POSTGRES_DB=paperclip` | 환경변수 주입. container 시작 시 자동으로 생성할 DB 이름을 지정한다. |
-| `-p 15432:5432` | port publish. `host port : container port` 순서. host의 15432로 들어온 요청을 container 내부 5432로 전달한다. |
+| `-p 15432:5432` | port publish. `host port : container port` 순서. host의 15432로 들어온 요청을 container 내부 5432로 전달한다. 여기서 host는 외부 도메인이 아니라 Docker가 실행되고 있는 내 컴퓨터(MacBook)를 말한다. `-p` 없으면 내 컴퓨터에서 접근 불가, 같은 Docker network의 container끼리만 통신 가능하다. |
 | `postgres:16` | 사용할 image와 tag. Docker Hub의 공식 PostgreSQL 16 image를 사용한다. |
 
 ### PostgreSQL container 시작 2단계
