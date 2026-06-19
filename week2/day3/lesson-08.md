@@ -2,23 +2,9 @@
 
 ## 실습 확인 기록
 
-### 최종 상태 확인
-
-| 명령 | 설명 | 결과 |
-|---|---|---|
-| `docker images paperclip-static-site` | 전체 tag 목록 확인 | ![images](assets\lesson-08\images.png) |
-| `docker ps -a --filter name=paperclip-day3-static` | container 상태 확인 | ![ps](assets\lesson-08\ps.png) |
-| `docker history paperclip-static-site:day3` | layer 흔적 확인 | ![history](assets\lesson-08\history.png) |
-| `docker image inspect paperclip-static-site:day3 --format "{{.Id}} {{.Size}} {{json .RepoTags}}"` | image 메타데이터 확인 | ![inspect](assets\lesson-08\inspect.png) |
-| `docker scout cves --only-severity critical,high paperclip-static-site:day3 \|\| true` | 취약점 점검 | ![scout](assets\lesson-08\scout.png) |
-
-### Cleanup
-
-| 명령 | 설명 | 결과 |
-|---|---|---|
-| `docker stop paperclip-day3-static paperclip-day3-static-wrong paperclip-day3-bad-cmd \|\| true` | 실습 container 중지 | ![cleanup-stop](assets\lesson-08\cleanup-stop.png) |
-| `docker rm paperclip-day3-static paperclip-day3-static-wrong paperclip-day3-bad-cmd \|\| true` | 실습 container 삭제 | ![cleanup-rm](assets\lesson-08\cleanup-rm.png) |
-| `rm -rf week2/day3/labs/static-site-broken` | 실습 복사본 삭제 | |
+| 명령/확인 | 결과 |
+|---|---|
+| | |
 
 ## 확인 질문 답변
 
