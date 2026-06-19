@@ -1,2 +1,5 @@
 # macOS가 자동 생성하는 폴더 메타데이터 파일
 .DS_Store
+
+# 개인 일지
+daily-log/
