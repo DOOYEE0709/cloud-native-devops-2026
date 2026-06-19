@@ -4,9 +4,9 @@
 
 | 명령/확인 | 설명 | 결과 |
 |---|---|---|
-| `docker images` | 로컬에 내려받은 image 목록 확인 | ![docker images](assets\lesson-03\docker-images.png) |
-| `docker ps` | 현재 실행 중인 container 목록 확인 | ![docker ps](assets\lesson-03\docker-ps.png) |
-| `docker ps -a` | 종료된 container 포함 전체 목록 확인 | ![docker ps -a](assets\lesson-03\docker-ps-a.png) |
+| `docker images` | 로컬에 내려받은 image 목록 확인 | ![docker images](assets/lesson-03/docker-images.png) |
+| `docker ps` | 현재 실행 중인 container 목록 확인 | ![docker ps](assets/lesson-03/docker-ps.png) |
+| `docker ps -a` | 종료된 container 포함 전체 목록 확인 | ![docker ps -a](assets/lesson-03/docker-ps-a.png) |
 
 ## 확인 질문 답변
 

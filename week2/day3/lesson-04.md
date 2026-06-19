@@ -4,13 +4,13 @@
 
 | 명령 | 설명 | 결과 |
 |---|---|---|
-| `docker build -t paperclip-static-site:day3 .` | image build | ![build](assets\lesson-04\build.png) |
-| `docker images paperclip-static-site` | 생성된 image 확인 | ![images](assets\lesson-04\images.png) |
-| `docker run -d --name paperclip-day3-static -p 18083:80 paperclip-static-site:day3` | container 실행 | ![run](assets\lesson-04\run.png) |
-| `docker ps --filter name=paperclip-day3-static` | container 상태 확인 | ![ps](assets\lesson-04\ps.png) |
-| `curl -I http://localhost:18083` | HTTP 응답 코드 확인 | ![curl-I](assets\lesson-04\curl-I.png) |
-| `curl -s http://localhost:18083 \| grep "Day 3 Static App"` | HTML 본문 확인 | ![curl-grep](assets\lesson-04\curl-grep.png) |
-| `docker scout cves --only-severity critical,high paperclip-static-site:day3` | 취약점 점검 | ![scout](assets\lesson-04\scout.png) |
+| `docker build -t paperclip-static-site:day3 .` | image build | ![build](assets/lesson-04/build.png) |
+| `docker images paperclip-static-site` | 생성된 image 확인 | ![images](assets/lesson-04/images.png) |
+| `docker run -d --name paperclip-day3-static -p 18083:80 paperclip-static-site:day3` | container 실행 | ![run](assets/lesson-04/run.png) |
+| `docker ps --filter name=paperclip-day3-static` | container 상태 확인 | ![ps](assets/lesson-04/ps.png) |
+| `curl -I http://localhost:18083` | HTTP 응답 코드 확인 | ![curl-I](assets/lesson-04/curl-I.png) |
+| `curl -s http://localhost:18083 \| grep "Day 3 Static App"` | HTML 본문 확인 | ![curl-grep](assets/lesson-04/curl-grep.png) |
+| `docker scout cves --only-severity critical,high paperclip-static-site:day3` | 취약점 점검 | ![scout](assets/lesson-04/scout.png) |
 
 ## 확인 질문 답변
 

@@ -4,11 +4,11 @@
 
 | 명령/확인 | 설명 | 결과 |
 |---|---|---|
-| `docker ps -a --filter name=paperclip-pg16` | 기존 container 상태 확인 | ![docker ps -a --filter name=paperclip-pg16](assets\lesson-01\docker-ps-filter.png) |
+| `docker ps -a --filter name=paperclip-pg16` | 기존 container 상태 확인 | ![docker ps -a --filter name=paperclip-pg16](assets/lesson-01/docker-ps-filter.png) |
 | `docker stop paperclip-pg16 \|\| true` && `docker rm paperclip-pg16 \|\| true` | 기존 container 정지 및 삭제 | 기존 container가 없으므로 skip |
-| `docker run -d --name paperclip-pg16 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=paperclip -p 15432:5432 postgres:16` | volume 없이 새 container 실행 |  ![docker run -d --name paperclip-pg16 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=paperclip -p 15432:5432 postgres:16](assets\lesson-01\docker-run-pg16.png) |
-| `docker logs paperclip-pg16 --tail 30` | 시작 로그 확인 | ![docker logs paperclip-pg16 --tail 30](assets\lesson-01\docker-logs-pg16.png) |
-| `docker exec paperclip-pg16 psql -U postgres -d paperclip -c "\dt"` | table 목록 — 이전 table이 없음을 확인 | ![docker logs paperclip-pg16 --tail 30](assets\lesson-01\docker-exec-dt.png)|
+| `docker run -d --name paperclip-pg16 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=paperclip -p 15432:5432 postgres:16` | volume 없이 새 container 실행 |  ![docker run -d --name paperclip-pg16 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=paperclip -p 15432:5432 postgres:16](assets/lesson-01/docker-run-pg16.png) |
+| `docker logs paperclip-pg16 --tail 30` | 시작 로그 확인 | ![docker logs paperclip-pg16 --tail 30](assets/lesson-01/docker-logs-pg16.png) |
+| `docker exec paperclip-pg16 psql -U postgres -d paperclip -c "\dt"` | table 목록 — 이전 table이 없음을 확인 | ![docker logs paperclip-pg16 --tail 30](assets/lesson-01/docker-exec-dt.png)|
 
 ## 확인 질문 답변
 

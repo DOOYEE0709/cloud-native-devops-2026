@@ -30,7 +30,7 @@ cd /Users/mac/KTCLOUD/cloud-native-devops-2026/week2/day3/labs/weekend-3tier-cha
 |---|---|---|
 | `docker build -t paperclip-weekend-frontend:optimized ./frontend` | frontend image build | X |
 | `docker build -t paperclip-weekend-backend:optimized ./backend` | backend image build | X |
-| `docker images 'paperclip-weekend-*'` | 생성된 image 확인 | ![images](assets\session-09\images.png) |
+| `docker images 'paperclip-weekend-*'` | 생성된 image 확인 | ![images](assets/session-09/images.png) |
 
 ### 2. Network / Volume 생성
 
@@ -39,15 +39,15 @@ cd /Users/mac/KTCLOUD/cloud-native-devops-2026/week2/day3/labs/weekend-3tier-cha
 | `docker network create paperclip-weekend-front-net` | frontend network 생성 | X |
 | `docker network create paperclip-weekend-back-net` | backend network 생성 | X |
 | `docker volume create paperclip-weekend-pgdata` | DB volume 생성 | X |
-| `docker network ls \| grep paperclip-weekend` | network 목록 확인 | ![network-ls](assets\session-09\network-ls.png) |
-| `docker volume ls \| grep paperclip-weekend` | volume 목록 확인 | ![volume-ls](assets\session-09\volume-ls.png) |
+| `docker network ls \| grep paperclip-weekend` | network 목록 확인 | ![network-ls](assets/session-09/network-ls.png) |
+| `docker volume ls \| grep paperclip-weekend` | volume 목록 확인 | ![volume-ls](assets/session-09/volume-ls.png) |
 
 ### 3. Run DB
 
 | 명령 | 설명 | 결과 |
 |---|---|---|
 | `docker run -d --name paperclip-weekend-db --network paperclip-weekend-back-net -e POSTGRES_PASSWORD=weekend-only -e POSTGRES_DB=weekend -v paperclip-weekend-pgdata:/var/lib/postgresql/data postgres:16` | DB container 실행 | X |
-| `docker logs paperclip-weekend-db --tail 40` | DB readiness 확인 | ![logs-db](assets\session-09\logs-db.png) |
+| `docker logs paperclip-weekend-db --tail 40` | DB readiness 확인 | ![logs-db](assets/session-09/logs-db.png) |
 
 ### 4. Run Backend
 
@@ -55,52 +55,52 @@ cd /Users/mac/KTCLOUD/cloud-native-devops-2026/week2/day3/labs/weekend-3tier-cha
 |---|---|---|
 | `docker run -d --name paperclip-weekend-back --network paperclip-weekend-back-net -e APP_ENV=weekend -e DB_HOST=paperclip-weekend-db -e DB_PORT=5432 paperclip-weekend-backend:optimized` | backend container 실행 | X |
 | `docker network connect paperclip-weekend-front-net paperclip-weekend-back` | backend를 front-net에도 연결 | X |
-| `docker logs paperclip-weekend-back --tail 40` | backend 기동 확인 | ![logs-back](assets\session-09\logs-back.png) |
+| `docker logs paperclip-weekend-back --tail 40` | backend 기동 확인 | ![logs-back](assets/session-09/logs-back.png) |
 
 ### 5. Run Frontend
 
 | 명령 | 설명 | 결과 |
 |---|---|---|
 | `docker run -d --name paperclip-weekend-front --network paperclip-weekend-front-net -p 18090:80 paperclip-weekend-frontend:optimized` | frontend container 실행 | X |
-| `curl -I http://localhost:18090` | HTTP 응답 확인 | ![curl-I](assets\session-09\curl-I.png) |
-| `curl -s http://localhost:18090/api/info` | API 응답 확인 | ![curl-api](assets\session-09\curl-api.png) |
+| `curl -I http://localhost:18090` | HTTP 응답 확인 | ![curl-I](assets/session-09/curl-I.png) |
+| `curl -s http://localhost:18090/api/info` | API 응답 확인 | ![curl-api](assets/session-09/curl-api.png) |
 
 ### 6. Network Evidence
 
 | 명령 | 설명 | 결과 |
 |---|---|---|
-| `docker exec paperclip-weekend-front ping -c 2 paperclip-weekend-back` | frontend → backend 연결 확인 (`-c 2` : 2번만 보내고 멈춤. `0% packet loss`가 정상 증거) | ![ping-front-back](assets\session-09\ping-front-back.png) |
-| `docker exec paperclip-weekend-front wget -q -O- http://paperclip-weekend-back:8080/health` | frontend → backend HTTP 확인 (`-q` : 진행 출력 숨김, `-O-` : 대문자 O, 응답 본문을 파일 대신 터미널에 출력) | ![wget-health](assets\session-09\wget-health.png) |
-| `docker exec paperclip-weekend-back ping -c 2 paperclip-weekend-db` | backend → DB 연결 확인 | ![ping-back-db](assets\session-09\ping-back-db.png) |
-| `docker exec paperclip-weekend-back sh -c 'nc -z paperclip-weekend-db 5432 && echo db-port-open'` | backend → DB port 확인 (`nc -z` : 데이터 전송 없이 port가 열려 있는지만 확인. 성공하면 `&&` 뒤의 `echo db-port-open` 출력) | ![nc-db](assets\session-09\nc-db.png) |
-| `docker exec paperclip-weekend-front ping -c 2 paperclip-weekend-db \|\| true` | frontend → DB 실패 확인 | ![ping-front-db-fail](assets\session-09\ping-front-db-fail.png) |
+| `docker exec paperclip-weekend-front ping -c 2 paperclip-weekend-back` | frontend → backend 연결 확인 (`-c 2` : 2번만 보내고 멈춤. `0% packet loss`가 정상 증거) | ![ping-front-back](assets/session-09/ping-front-back.png) |
+| `docker exec paperclip-weekend-front wget -q -O- http://paperclip-weekend-back:8080/health` | frontend → backend HTTP 확인 (`-q` : 진행 출력 숨김, `-O-` : 대문자 O, 응답 본문을 파일 대신 터미널에 출력) | ![wget-health](assets/session-09/wget-health.png) |
+| `docker exec paperclip-weekend-back ping -c 2 paperclip-weekend-db` | backend → DB 연결 확인 | ![ping-back-db](assets/session-09/ping-back-db.png) |
+| `docker exec paperclip-weekend-back sh -c 'nc -z paperclip-weekend-db 5432 && echo db-port-open'` | backend → DB port 확인 (`nc -z` : 데이터 전송 없이 port가 열려 있는지만 확인. 성공하면 `&&` 뒤의 `echo db-port-open` 출력) | ![nc-db](assets/session-09/nc-db.png) |
+| `docker exec paperclip-weekend-front ping -c 2 paperclip-weekend-db \|\| true` | frontend → DB 실패 확인 | ![ping-front-db-fail](assets/session-09/ping-front-db-fail.png) |
 
 ### 7. Volume Evidence
 
 | 명령 | 설명 | 결과 |
 |---|---|---|
-| `docker volume inspect paperclip-weekend-pgdata` | volume 메타데이터 확인 | ![volume-inspect](assets\session-09\volume-inspect.png) |
+| `docker volume inspect paperclip-weekend-pgdata` | volume 메타데이터 확인 | ![volume-inspect](assets/session-09/volume-inspect.png) |
 | `docker rm -f paperclip-weekend-db && docker run -d --name paperclip-weekend-db --network paperclip-weekend-back-net -e POSTGRES_PASSWORD=weekend-only -e POSTGRES_DB=weekend_changed -v paperclip-weekend-pgdata:/var/lib/postgresql/data postgres:16` | DB container 삭제 후 같은 volume으로 재실행 (`-f` : 실습이라 stop 없이 강제 삭제. DB 이름을 바꿔도 초기화가 다시 안 되는지 확인) | 밑에 결과 확인 |
-| `docker logs paperclip-weekend-db --tail 40` | `Skipping initialization` 메시지 확인 (이 줄이 나오면 volume에 기존 데이터가 남아 있어 초기화를 건너뛴 것 → volume 지속성 증거) | ![logs-db-skip](assets\session-09\logs-db-skip.png) |
+| `docker logs paperclip-weekend-db --tail 40` | `Skipping initialization` 메시지 확인 (이 줄이 나오면 volume에 기존 데이터가 남아 있어 초기화를 건너뛴 것 → volume 지속성 증거) | ![logs-db-skip](assets/session-09/logs-db-skip.png) |
 
 ### 8. Logs / Troubleshooting
 
 | 명령 | 설명 | 결과 |
 |---|---|---|
-| `docker logs paperclip-weekend-front --tail 40` | frontend 로그 | ![logs-front](assets\session-09\logs-front.png) |
-| `docker logs paperclip-weekend-back --tail 40` | backend 로그 | ![logs-back-final](assets\session-09\logs-back-final.png) |
-| `docker logs paperclip-weekend-db --tail 40` | DB 로그 | ![logs-db-final](assets\session-09\logs-db-final.png) |
-| `docker ps --filter name=paperclip-weekend` | 전체 container 상태 | ![ps-all](assets\session-09\ps-all.png) |
-| `docker inspect paperclip-weekend-back --format '{{json .NetworkSettings.Networks}}'` | backend network 소속 상세 확인 | ![inspect-network](assets\session-09\inspect-network.png) |
-| `docker inspect paperclip-weekend-back --format '{{range $k, $v := .NetworkSettings.Networks}}{{$k}}{{"\n"}}{{end}}'` | backend 연결 network 이름만 추출 | ![inspect-network-names](assets\session-09\inspect-network-names.png) |
+| `docker logs paperclip-weekend-front --tail 40` | frontend 로그 | ![logs-front](assets/session-09/logs-front.png) |
+| `docker logs paperclip-weekend-back --tail 40` | backend 로그 | ![logs-back-final](assets/session-09/logs-back-final.png) |
+| `docker logs paperclip-weekend-db --tail 40` | DB 로그 | ![logs-db-final](assets/session-09/logs-db-final.png) |
+| `docker ps --filter name=paperclip-weekend` | 전체 container 상태 | ![ps-all](assets/session-09/ps-all.png) |
+| `docker inspect paperclip-weekend-back --format '{{json .NetworkSettings.Networks}}'` | backend network 소속 상세 확인 | ![inspect-network](assets/session-09/inspect-network.png) |
+| `docker inspect paperclip-weekend-back --format '{{range $k, $v := .NetworkSettings.Networks}}{{$k}}{{"\n"}}{{end}}'` | backend 연결 network 이름만 추출 | ![inspect-network-names](assets/session-09/inspect-network-names.png) |
 
 ### 9. Build Speed / Image Size
 
 | 명령 | 설명 | 결과 |
 |---|---|---|
-| `sed -n '1,120p' frontend/.dockerignore` | frontend context 위험 파일 제외 확인 | ![dockerignore-front](assets\session-09\dockerignore-front.png) |
-| `sed -n '1,120p' backend/.dockerignore` | backend context 위험 파일 제외 확인 | ![dockerignore-back](assets\session-09\dockerignore-back.png) |
-| `du -sh frontend backend` | context 크기 확인 | ![du](assets\session-09\du.png) |
+| `sed -n '1,120p' frontend/.dockerignore` | frontend context 위험 파일 제외 확인 | ![dockerignore-front](assets/session-09/dockerignore-front.png) |
+| `sed -n '1,120p' backend/.dockerignore` | backend context 위험 파일 제외 확인 | ![dockerignore-back](assets/session-09/dockerignore-back.png) |
+| `du -sh frontend backend` | context 크기 확인 | ![du](assets/session-09/du.png) |
 | `./scripts/measure-build.sh` | base image별 build 시간 / size 측정 | log가 길어서 밑에 표(Build size 비교 기록)로 정리함 |
 
 #### Build size 비교 기록

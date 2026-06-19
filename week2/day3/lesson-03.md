@@ -4,9 +4,9 @@
 
 | 명령 | 설명 | 결과 |
 |---|---|---|
-| `find . -maxdepth 2 -type f \| sort` | build context 안 파일 목록 확인 | ![find files](assets\lesson-03\find-files.png) |
-| `sed -n '1,160p' .dockerignore` | .dockerignore 내용 확인 | ![dockerignore](assets\lesson-03\dockerignore.png) |
-| `du -sh .` | build context 전체 크기 확인 | ![du](assets\lesson-03\du.png) |
+| `find . -maxdepth 2 -type f \| sort` | build context 안 파일 목록 확인 | ![find files](assets/lesson-03/find-files.png) |
+| `sed -n '1,160p' .dockerignore` | .dockerignore 내용 확인 | ![dockerignore](assets/lesson-03/dockerignore.png) |
+| `du -sh .` | build context 전체 크기 확인 | ![du](assets/lesson-03/du.png) |
 
 ## 확인 질문 답변
 

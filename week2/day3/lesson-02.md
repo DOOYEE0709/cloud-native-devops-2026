@@ -4,8 +4,8 @@
 
 | 명령 | 설명 | 결과 |
 |---|---|---|
-| `docker build -t paperclip-static-site:day3 .` | static-site Dockerfile로 image build | ![build](assets\lesson-02\build.png) |
-| `docker history paperclip-static-site:day3` | build한 image의 layer 흔적 확인 | ![history](assets\lesson-02\history.png) |
+| `docker build -t paperclip-static-site:day3 .` | static-site Dockerfile로 image build | ![build](assets/lesson-02/build.png) |
+| `docker history paperclip-static-site:day3` | build한 image의 layer 흔적 확인 | ![history](assets/lesson-02/history.png) |
 
 ## 확인 질문 답변
 

@@ -4,16 +4,16 @@
 
 | 명령/확인 | 설명 | 결과 |
 |---|---|---|
-| `docker version` | CLI(Client)와 daemon(Server) 연결 확인 | ![docker version](assets\lesson-05\docker-version.png) |
-| `docker pull nginx:latest` | Docker Hub에서 nginx image 내려받기 | ![docker pull nginx:latest](assets\lesson-05\pull-nginx.png)|
-| `docker image` | image 관련 서브커맨드 목록 확인 | ![docker image](assets\lesson-05\docker-image.png) |
-| `docker run -d --name paperclip-day1-nginx -p 18080:80 nginx:latest` | nginx container를 백그라운드로 실행, host 18080 → container 80 연결 | ![docker run -d --name paperclip-day1-nginx -p 18080:80 nginx:latest](assets\lesson-05\docker-run-nginx.png) |
-| `docker ps --filter name=paperclip-day1-nginx` | 실행 중인 container 상태와 port binding 확인 | ![docker ps --filter name=paperclip-day1-nginx](assets\lesson-05\docker-ps-filter.png) |
-| `curl http://localhost:18080` | nginx 응답 확인 | ![curl http://localhost:18080](assets\lesson-05\curl-18080.png) |
-| `docker logs paperclip-day1-nginx` | container 내부 process log 확인 | ![docker logs paperclip-day1-nginx](assets\lesson-05\docker-logs.png) |
-| `docker stop paperclip-day1-nginx` | container 정상 중지 | ![docker stop paperclip-day1-nginx](assets\lesson-05\docker-stop.png) |
-| `docker rm paperclip-day1-nginx` | 중지된 container 삭제 | ![docker rm paperclip-day1-nginx](assets\lesson-05\docker-rm.png) |
-| `docker ps --filter name=paperclip-day1-nginx` | 삭제 후 container가 남아있지 않음 확인 | ![docker ps --filter name=paperclip-day1-nginx](assets\lesson-05\docker-ps-filter2.png) |
+| `docker version` | CLI(Client)와 daemon(Server) 연결 확인 | ![docker version](assets/lesson-05/docker-version.png) |
+| `docker pull nginx:latest` | Docker Hub에서 nginx image 내려받기 | ![docker pull nginx:latest](assets/lesson-05/pull-nginx.png)|
+| `docker image` | image 관련 서브커맨드 목록 확인 | ![docker image](assets/lesson-05/docker-image.png) |
+| `docker run -d --name paperclip-day1-nginx -p 18080:80 nginx:latest` | nginx container를 백그라운드로 실행, host 18080 → container 80 연결 | ![docker run -d --name paperclip-day1-nginx -p 18080:80 nginx:latest](assets/lesson-05/docker-run-nginx.png) |
+| `docker ps --filter name=paperclip-day1-nginx` | 실행 중인 container 상태와 port binding 확인 | ![docker ps --filter name=paperclip-day1-nginx](assets/lesson-05/docker-ps-filter.png) |
+| `curl http://localhost:18080` | nginx 응답 확인 | ![curl http://localhost:18080](assets/lesson-05/curl-18080.png) |
+| `docker logs paperclip-day1-nginx` | container 내부 process log 확인 | ![docker logs paperclip-day1-nginx](assets/lesson-05/docker-logs.png) |
+| `docker stop paperclip-day1-nginx` | container 정상 중지 | ![docker stop paperclip-day1-nginx](assets/lesson-05/docker-stop.png) |
+| `docker rm paperclip-day1-nginx` | 중지된 container 삭제 | ![docker rm paperclip-day1-nginx](assets/lesson-05/docker-rm.png) |
+| `docker ps --filter name=paperclip-day1-nginx` | 삭제 후 container가 남아있지 않음 확인 | ![docker ps --filter name=paperclip-day1-nginx](assets/lesson-05/docker-ps-filter2.png) |
 
 ## 확인 질문 답변
 

@@ -4,8 +4,8 @@
 
 | 명령/확인 | 설명 | 결과 |
 |---|---|---|
-| `docker run --rm --network paperclip-day2-net postgres:16 pg_isready -h paperclip-net-pg -U postgres` | 일회성 client container로 DB readiness 확인 | ![pg isready](assets\lesson-06\pg-isready.png) |
-| `docker run --rm --network paperclip-day2-net -e PGPASSWORD=postgres postgres:16 psql -h paperclip-net-pg -U postgres -d postgres -c "SELECT current_database();"` | container name으로 DB 접속 및 SQL 실행 | ![psql select](assets\lesson-06\psql-select.png) |
+| `docker run --rm --network paperclip-day2-net postgres:16 pg_isready -h paperclip-net-pg -U postgres` | 일회성 client container로 DB readiness 확인 | ![pg isready](assets/lesson-06/pg-isready.png) |
+| `docker run --rm --network paperclip-day2-net -e PGPASSWORD=postgres postgres:16 psql -h paperclip-net-pg -U postgres -d postgres -c "SELECT current_database();"` | container name으로 DB 접속 및 SQL 실행 | ![psql select](assets/lesson-06/psql-select.png) |
 
 > **참고** 실습 명령 원본은 `-d paperclip`이나, `paperclip-net-pg` container 실행 시 `-e POSTGRES_DB=paperclip`을 누락해 `paperclip` DB가 없는 상태였다. 강사님 실습에 맞춰 `-d postgres`(기본 DB)로 변경해서 진행했다.
 
@@ -86,7 +86,7 @@ docker run --rm --network paperclip-day2-net postgres:16 pg_isready -h paperclip
 
 ### 서비스 전체 아키텍처
 
-![service network architecture](assets\lesson-06\service-network-architecture.png)
+![service network architecture](assets/lesson-06/service-network-architecture.png)
 
 ### 실제 운영에서 추가되는 것들
 

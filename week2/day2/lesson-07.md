@@ -4,10 +4,10 @@
 
 | 명령/확인 | 설명 | 결과 |
 |---|---|---|
-| `docker run -d --name paperclip-net-pg --network paperclip-day2-net -e POSTGRES_PASSWORD=postgres -p 15432:5432 -v paperclip-pg16-data:/var/lib/postgresql/data postgres:16` | network + port publish 함께 실행 | ![run both](assets\lesson-07\run-both.png) |
-| `docker ps --filter name=paperclip-net-pg` | PORTS 컬럼에서 `15432->5432` 확인 | ![ps ports](assets\lesson-07\ps-ports.png) |
-| `PGPASSWORD=postgres psql -h localhost -p 15432 -U postgres -d postgres -c "SELECT 1;"` | host terminal에서 published port로 접속 | ![host access](assets\lesson-07\host-access.png) |
-| `docker run --rm --network paperclip-day2-net -e PGPASSWORD=postgres postgres:16 psql -h paperclip-net-pg -U postgres -d postgres -c "SELECT 1;"` | client container에서 container name으로 접속 | ![internal access](assets\lesson-07\internal-access.png) |
+| `docker run -d --name paperclip-net-pg --network paperclip-day2-net -e POSTGRES_PASSWORD=postgres -p 15432:5432 -v paperclip-pg16-data:/var/lib/postgresql/data postgres:16` | network + port publish 함께 실행 | ![run both](assets/lesson-07/run-both.png) |
+| `docker ps --filter name=paperclip-net-pg` | PORTS 컬럼에서 `15432->5432` 확인 | ![ps ports](assets/lesson-07/ps-ports.png) |
+| `PGPASSWORD=postgres psql -h localhost -p 15432 -U postgres -d postgres -c "SELECT 1;"` | host terminal에서 published port로 접속 | ![host access](assets/lesson-07/host-access.png) |
+| `docker run --rm --network paperclip-day2-net -e PGPASSWORD=postgres postgres:16 psql -h paperclip-net-pg -U postgres -d postgres -c "SELECT 1;"` | client container에서 container name으로 접속 | ![internal access](assets/lesson-07/internal-access.png) |
 
 ## 확인 질문 답변
 

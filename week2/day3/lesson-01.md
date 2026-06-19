@@ -4,11 +4,11 @@
 
 | 명령 | 설명 | 결과 |
 |---|---|---|
-| `docker pull nginx:1.27-alpine` | registry에서 nginx 1.27-alpine image를 local로 가져온다 | ![pull nginx](assets\lesson-01\pull-nginx.png) |
-| `docker images nginx` | local에 저장된 nginx image 목록을 확인한다 | ![images nginx](assets\lesson-01\images-nginx.png) |
-| `docker history nginx:1.27-alpine` | image가 어떤 layer 흐름으로 만들어졌는지 확인한다 | ![history nginx](assets\lesson-01\history-nginx.png) |
-| `docker image inspect nginx:1.27-alpine --format "{{.Id}} {{.Architecture}} {{.Size}}"` | image ID, architecture, size를 확인한다 | ![inspect meta](assets\lesson-01\inspect-meta.png) |
-| `docker image inspect nginx:1.27-alpine --format "{{json .RepoTags}} {{json .RepoDigests}}"` | image의 tag와 digest를 확인한다 | ![inspect digest](assets\lesson-01\inspect-digest.png) |
+| `docker pull nginx:1.27-alpine` | registry에서 nginx 1.27-alpine image를 local로 가져온다 | ![pull nginx](assets/lesson-01/pull-nginx.png) |
+| `docker images nginx` | local에 저장된 nginx image 목록을 확인한다 | ![images nginx](assets/lesson-01/images-nginx.png) |
+| `docker history nginx:1.27-alpine` | image가 어떤 layer 흐름으로 만들어졌는지 확인한다 | ![history nginx](assets/lesson-01/history-nginx.png) |
+| `docker image inspect nginx:1.27-alpine --format "{{.Id}} {{.Architecture}} {{.Size}}"` | image ID, architecture, size를 확인한다 | ![inspect meta](assets/lesson-01/inspect-meta.png) |
+| `docker image inspect nginx:1.27-alpine --format "{{json .RepoTags}} {{json .RepoDigests}}"` | image의 tag와 digest를 확인한다 | ![inspect digest](assets/lesson-01/inspect-digest.png) |
 
 ## 확인 질문 답변
 

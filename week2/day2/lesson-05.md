@@ -4,11 +4,11 @@
 
 | 명령/확인 | 설명 | 결과 |
 |---|---|---|
-| `docker network ls` | 전체 network 목록 확인 | ![network ls](assets\lesson-05\network-ls.png) |
-| `docker network create paperclip-day2-net` | custom bridge network 생성 | ![network create](assets\lesson-05\network-create.png) |
-| `docker run -d --name paperclip-net-pg --network paperclip-day2-net -e POSTGRES_PASSWORD=postgres -v paperclip-pg16-data:/var/lib/postgresql/data postgres:16` | custom network에 DB container 실행 | ![run network](assets\lesson-05\run-network.png) |
-| `docker network inspect paperclip-day2-net --format "{{ json .Containers }}"` | network에 붙은 container 확인 | ![network inspect](assets\lesson-05\network-inspect.png) |
-| `docker ps --filter name=paperclip-net-pg` | container 실행 상태 확인 | ![ps filter](assets\lesson-05\ps-filter.png) |
+| `docker network ls` | 전체 network 목록 확인 | ![network ls](assets/lesson-05/network-ls.png) |
+| `docker network create paperclip-day2-net` | custom bridge network 생성 | ![network create](assets/lesson-05/network-create.png) |
+| `docker run -d --name paperclip-net-pg --network paperclip-day2-net -e POSTGRES_PASSWORD=postgres -v paperclip-pg16-data:/var/lib/postgresql/data postgres:16` | custom network에 DB container 실행 | ![run network](assets/lesson-05/run-network.png) |
+| `docker network inspect paperclip-day2-net --format "{{ json .Containers }}"` | network에 붙은 container 확인 | ![network inspect](assets/lesson-05/network-inspect.png) |
+| `docker ps --filter name=paperclip-net-pg` | container 실행 상태 확인 | ![ps filter](assets/lesson-05/ps-filter.png) |
 
 ## 확인 질문 답변
 

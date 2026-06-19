@@ -4,12 +4,12 @@
 
 | 명령/확인 | 설명 | 결과 |
 |---|---|---|
-| `docker volume ls` | 전체 volume 목록 확인 | ![volume ls](assets\lesson-03\volume-ls.png) |
-| `docker volume create paperclip-temp-data` | 임시 volume 생성 | ![volume create temp](assets\lesson-03\volume-create-temp.png) |
-| `docker volume ls \| grep paperclip-temp-data` | 임시 volume 생성 확인 | ![volume ls grep temp](assets\lesson-03\volume-ls-grep-temp.png) |
-| `docker volume inspect paperclip-temp-data` | DB volume 상세 정보 확인 | ![volume inspect](assets\lesson-03\volume-inspect.png) |
-| `docker volume inspect paperclip-temp-data --format "{{ .Name }} {{ .Mountpoint }}"` | 이름과 mountpoint만 출력 | ![volume inspect format](assets\lesson-03\volume-inspect-format.png) |
-| `docker volume rm paperclip-temp-data` | 임시 volume 삭제 | ![volume rm temp](assets\lesson-03\volume-rm-temp.png) |
+| `docker volume ls` | 전체 volume 목록 확인 | ![volume ls](assets/lesson-03/volume-ls.png) |
+| `docker volume create paperclip-temp-data` | 임시 volume 생성 | ![volume create temp](assets/lesson-03/volume-create-temp.png) |
+| `docker volume ls \| grep paperclip-temp-data` | 임시 volume 생성 확인 | ![volume ls grep temp](assets/lesson-03/volume-ls-grep-temp.png) |
+| `docker volume inspect paperclip-temp-data` | DB volume 상세 정보 확인 | ![volume inspect](assets/lesson-03/volume-inspect.png) |
+| `docker volume inspect paperclip-temp-data --format "{{ .Name }} {{ .Mountpoint }}"` | 이름과 mountpoint만 출력 | ![volume inspect format](assets/lesson-03/volume-inspect-format.png) |
+| `docker volume rm paperclip-temp-data` | 임시 volume 삭제 | ![volume rm temp](assets/lesson-03/volume-rm-temp.png) |
 
 ## 확인 질문 답변
 

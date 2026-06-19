@@ -4,12 +4,12 @@
 
 | 명령/확인 | 설명 | 결과 |
 |---|---|---|
-| `docker volume ls` && `docker network ls` | volume과 network 존재 확인 | ![vol net ls](assets\lesson-08\vol-net-ls.png) |
-| `docker run -d --name paperclip-day2-pg --network paperclip-day2-net -e POSTGRES_PASSWORD=postgres -v paperclip-pg16-data:/var/lib/postgresql/data postgres:16` | volume + network 동시 연결해서 DB container 실행 | ![run integrated](assets\lesson-08\run-integrated.png) |
-| `docker run --rm --network paperclip-day2-net -e PGPASSWORD=postgres postgres:16 psql -h paperclip-day2-pg -U postgres -d postgres -c "SELECT current_database();"` | client container로 DNS 접속 확인 | ![client connect](assets\lesson-08\client-connect.png) |
-| `docker stop paperclip-day2-pg` && `docker rm paperclip-day2-pg` | container 삭제 (volume/network는 남음) | ![stop rm](assets\lesson-08\stop-rm.png) |
-| `docker run -d --name paperclip-day2-pg-v2 --network paperclip-day2-net -e POSTGRES_PASSWORD=postgres -v paperclip-pg16-data:/var/lib/postgresql/data postgres:16` | 같은 volume + network로 새 container 실행 | ![run v2](assets\lesson-08\run-v2.png) |
-| `docker run --rm --network paperclip-day2-net -e PGPASSWORD=postgres postgres:16 psql -h paperclip-day2-pg-v2 -U postgres -d postgres -c "SELECT current_database();"` | v2 container에 DNS 접속 확인 | ![client v2](assets\lesson-08\client-v2.png) |
+| `docker volume ls` && `docker network ls` | volume과 network 존재 확인 | ![vol net ls](assets/lesson-08/vol-net-ls.png) |
+| `docker run -d --name paperclip-day2-pg --network paperclip-day2-net -e POSTGRES_PASSWORD=postgres -v paperclip-pg16-data:/var/lib/postgresql/data postgres:16` | volume + network 동시 연결해서 DB container 실행 | ![run integrated](assets/lesson-08/run-integrated.png) |
+| `docker run --rm --network paperclip-day2-net -e PGPASSWORD=postgres postgres:16 psql -h paperclip-day2-pg -U postgres -d postgres -c "SELECT current_database();"` | client container로 DNS 접속 확인 | ![client connect](assets/lesson-08/client-connect.png) |
+| `docker stop paperclip-day2-pg` && `docker rm paperclip-day2-pg` | container 삭제 (volume/network는 남음) | ![stop rm](assets/lesson-08/stop-rm.png) |
+| `docker run -d --name paperclip-day2-pg-v2 --network paperclip-day2-net -e POSTGRES_PASSWORD=postgres -v paperclip-pg16-data:/var/lib/postgresql/data postgres:16` | 같은 volume + network로 새 container 실행 | ![run v2](assets/lesson-08/run-v2.png) |
+| `docker run --rm --network paperclip-day2-net -e PGPASSWORD=postgres postgres:16 psql -h paperclip-day2-pg-v2 -U postgres -d postgres -c "SELECT current_database();"` | v2 container에 DNS 접속 확인 | ![client v2](assets/lesson-08/client-v2.png) |
 
 ## 확인 질문 답변
 

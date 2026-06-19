@@ -4,9 +4,9 @@
 
 | 명령/확인 | 설명 | 결과 |
 |---|---|---|
-| `docker version` | Docker CLI(Client)와 daemon(Server) 버전 및 연결 상태 확인 | ![docker version](assets\lesson-02\docker-version.png) |
-| `docker compose version` | Docker Compose 플러그인 설치 여부 및 버전 확인 | ![docker compose version](assets\lesson-02\docker-compose-version.png) |
-| `docker run --rm hello-world` | 테스트용 image를 pull해서 실행 후 자동 삭제 — 설치 전체 흐름이 정상인지 확인 | ![docker run --rm hello-world](assets\lesson-02\docker-run-rm-helloworld.png) |
+| `docker version` | Docker CLI(Client)와 daemon(Server) 버전 및 연결 상태 확인 | ![docker version](assets/lesson-02/docker-version.png) |
+| `docker compose version` | Docker Compose 플러그인 설치 여부 및 버전 확인 | ![docker compose version](assets/lesson-02/docker-compose-version.png) |
+| `docker run --rm hello-world` | 테스트용 image를 pull해서 실행 후 자동 삭제 — 설치 전체 흐름이 정상인지 확인 | ![docker run --rm hello-world](assets/lesson-02/docker-run-rm-helloworld.png) |
 
 ## 확인 질문 답변
 

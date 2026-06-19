@@ -4,16 +4,16 @@
 
 | 명령/확인 | 설명 | 결과 |
 |---|---|---|
-| `docker run -d --name paperclip-pg18-conflict -e POSTGRES_PASSWORD=postgres -p 15432:5432 postgres:18` | 같은 host port 15432로 pg18 실행 시도 (의도적 충돌) | ![port conflict](assets\lesson-08\port-conflict.png) |
-| `docker rm paperclip-pg18-conflict` | 충돌로 생성된 container 정리 | ![docker rm conflict](assets\lesson-08\docker-rm-conflict.png) |
-| `docker ps --filter name=paperclip-pg` | 정상 상태 재확인 (pg16/pg18 모두 실행 중) | ![docker ps pg](assets\lesson-08\docker-ps-pg.png) |
-| `PGPASSWORD=postgres psql -h localhost -p 15432 -U postgres -d paperclip -c "SELECT version();"` | pg16 최종 version 확인 | ![psql pg16 final](assets\lesson-08\psql-pg16-final.png) |
-| `PGPASSWORD=postgres psql -h localhost -p 15433 -U postgres -d paperclip -c "SELECT version();"` | pg18 최종 version 확인 | ![psql pg18 final](assets\lesson-08\psql-pg18-final.png) |
-| `docker stop paperclip-pg16 paperclip-pg18` | container 중지 | ![docker stop](assets\lesson-08\docker-stop.png) |
-| `docker rm paperclip-pg16 paperclip-pg18` | container 삭제 | ![docker rm](assets\lesson-08\docker-rm.png) |
-| `docker volume rm paperclip-pg16-data paperclip-pg18-data` | 실습 volume 삭제 | ![docker volume rm](assets\lesson-08\docker-volume-rm.png) |
-| `docker ps -a --filter name=paperclip-pg` | container 정리 완료 확인 | ![docker ps -a final](assets\lesson-08\docker-ps-a-final.png) |
-| `docker volume ls \| grep paperclip-pg` | volume 정리 완료 확인 | ![docker volume ls](assets\lesson-08\docker-volume-ls.png) |
+| `docker run -d --name paperclip-pg18-conflict -e POSTGRES_PASSWORD=postgres -p 15432:5432 postgres:18` | 같은 host port 15432로 pg18 실행 시도 (의도적 충돌) | ![port conflict](assets/lesson-08/port-conflict.png) |
+| `docker rm paperclip-pg18-conflict` | 충돌로 생성된 container 정리 | ![docker rm conflict](assets/lesson-08/docker-rm-conflict.png) |
+| `docker ps --filter name=paperclip-pg` | 정상 상태 재확인 (pg16/pg18 모두 실행 중) | ![docker ps pg](assets/lesson-08/docker-ps-pg.png) |
+| `PGPASSWORD=postgres psql -h localhost -p 15432 -U postgres -d paperclip -c "SELECT version();"` | pg16 최종 version 확인 | ![psql pg16 final](assets/lesson-08/psql-pg16-final.png) |
+| `PGPASSWORD=postgres psql -h localhost -p 15433 -U postgres -d paperclip -c "SELECT version();"` | pg18 최종 version 확인 | ![psql pg18 final](assets/lesson-08/psql-pg18-final.png) |
+| `docker stop paperclip-pg16 paperclip-pg18` | container 중지 | ![docker stop](assets/lesson-08/docker-stop.png) |
+| `docker rm paperclip-pg16 paperclip-pg18` | container 삭제 | ![docker rm](assets/lesson-08/docker-rm.png) |
+| `docker volume rm paperclip-pg16-data paperclip-pg18-data` | 실습 volume 삭제 | ![docker volume rm](assets/lesson-08/docker-volume-rm.png) |
+| `docker ps -a --filter name=paperclip-pg` | container 정리 완료 확인 | ![docker ps -a final](assets/lesson-08/docker-ps-a-final.png) |
+| `docker volume ls \| grep paperclip-pg` | volume 정리 완료 확인 | ![docker volume ls](assets/lesson-08/docker-volume-ls.png) |
 
 ## 확인 질문 답변
 

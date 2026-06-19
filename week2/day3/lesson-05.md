@@ -6,25 +6,25 @@
 
 | 명령 | 설명 | 결과 |
 |---|---|---|
-| `docker history paperclip-static-site:day3` | layer 흔적 확인 | ![history](assets\lesson-05\history.png) |
-| `docker image inspect paperclip-static-site:day3 --format "{{.Id}} {{.Size}} {{.Architecture}} {{json .RepoTags}}"` | image 메타데이터 확인 | ![inspect](assets\lesson-05\inspect.png) |
+| `docker history paperclip-static-site:day3` | layer 흔적 확인 | ![history](assets/lesson-05/history.png) |
+| `docker image inspect paperclip-static-site:day3 --format "{{.Id}} {{.Size}} {{.Architecture}} {{json .RepoTags}}"` | image 메타데이터 확인 | ![inspect](assets/lesson-05/inspect.png) |
 
 ### 실습 2: source 변경 후 cache 확인
 
 | 명령 | 설명 | 결과 |
 |---|---|---|
-| `printf '\n<!-- day3 cache evidence -->\n' >> index.html` | index.html 수정 | ![build-v2](assets\lesson-05\printf-cat.png) |
-| `docker build -t paperclip-static-site:day3-v2 .` | 변경 후 rebuild | ![build-v2](assets\lesson-05\build-v2.png) |
-| `docker images paperclip-static-site` | v2 image 확인 | ![images-v2](assets\lesson-05\images-v2.png) |
+| `printf '\n<!-- day3 cache evidence -->\n' >> index.html` | index.html 수정 | ![build-v2](assets/lesson-05/printf-cat.png) |
+| `docker build -t paperclip-static-site:day3-v2 .` | 변경 후 rebuild | ![build-v2](assets/lesson-05/build-v2.png) |
+| `docker images paperclip-static-site` | v2 image 확인 | ![images-v2](assets/lesson-05/images-v2.png) |
 
 ### 실습 3: base image별 size 비교
 
 | 명령 | 설명 | 결과 |
 |---|---|---|
-| `docker build -f Dockerfile.size-compare --build-arg BASE_IMAGE=nginx:stable -t paperclip-static-site:size-default .` | default build | ![build-default](assets\lesson-05\build-default.png) |
-| `docker build -f Dockerfile.size-compare --build-arg BASE_IMAGE=nginx:stable-alpine -t paperclip-static-site:size-alpine .` | alpine build | ![build-alpine](assets\lesson-05\build-alpine.png) |
-| `docker build -f Dockerfile.size-compare --build-arg BASE_IMAGE=nginx:stable-trixie -t paperclip-static-site:size-trixie .` | trixie build | ![build-trixie](assets\lesson-05\build-trixie.png) |
-| `docker images paperclip-static-site --format "table {{.Repository}}	{{.Tag}}	{{.Size}}"` | size 비교 | ![images-compare](assets\lesson-05\images-compare.png) |
+| `docker build -f Dockerfile.size-compare --build-arg BASE_IMAGE=nginx:stable -t paperclip-static-site:size-default .` | default build | ![build-default](assets/lesson-05/build-default.png) |
+| `docker build -f Dockerfile.size-compare --build-arg BASE_IMAGE=nginx:stable-alpine -t paperclip-static-site:size-alpine .` | alpine build | ![build-alpine](assets/lesson-05/build-alpine.png) |
+| `docker build -f Dockerfile.size-compare --build-arg BASE_IMAGE=nginx:stable-trixie -t paperclip-static-site:size-trixie .` | trixie build | ![build-trixie](assets/lesson-05/build-trixie.png) |
+| `docker images paperclip-static-site --format "table {{.Repository}}	{{.Tag}}	{{.Size}}"` | size 비교 | ![images-compare](assets/lesson-05/images-compare.png) |
 
 ### size 비교 기록
 

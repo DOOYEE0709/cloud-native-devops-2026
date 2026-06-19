@@ -4,16 +4,16 @@
 
 | 명령/확인 | 설명 | 결과 |
 |---|---|---|
-| `docker run -d --name paperclip-pg16 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=paperclip -p 15432:5432 -v paperclip-pg16-data:/var/lib/postgresql/data postgres:16` | postgres:16 container 실행 | ![docker run pg16](assets\lesson-07\docker-run-pg16.png) |
-| `docker ps --filter name=paperclip-pg16` | pg16 실행 상태와 port binding 확인 | ![docker ps filter pg16](assets\lesson-07\docker-ps-pg16.png) |
-| `docker logs paperclip-pg16` | pg16 DB 초기화 완료 메시지 확인 | ![docker logs pg16](assets\lesson-07\docker-logs-pg16.png) |
-| `docker run -d --name paperclip-pg18 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=paperclip -p 15433:5432 -v paperclip-pg18-data:/var/lib/postgresql postgres:18` | postgres:18 container 실행 | ![docker run pg18](assets\lesson-07\docker-run-pg18.png) |
-| `docker ps --filter name=paperclip-pg18` | pg18 실행 상태와 port binding 확인 | ![docker ps filter pg18](assets\lesson-07\docker-ps-pg18.png) |
-| `docker logs paperclip-pg18` | pg18 DB 초기화 완료 메시지 확인 | ![docker logs pg18](assets\lesson-07\docker-logs-pg18.png) |
-| `docker exec paperclip-pg16 psql -U postgres -d paperclip -c "SELECT version();"` | pg16 버전 쿼리 — Docker daemon 접근 가능할 때 | ![docker exec pg16 version](assets\lesson-07\exec-pg16-version.png) |
-| `docker exec paperclip-pg18 psql -U postgres -d paperclip -c "SELECT version();"` | pg18 버전 쿼리 — Docker daemon 접근 가능할 때 | ![docker exec pg18 version](assets\lesson-07\exec-pg18-version.png) |
-| `PGPASSWORD=postgres psql -h localhost -p 15432 -U postgres -d paperclip -c "SELECT version();"` | pg16 버전 쿼리 — host psql client로 접속 | ![psql pg16 version](assets\lesson-07\psql-pg16-version.png) |
-| `PGPASSWORD=postgres psql -h localhost -p 15433 -U postgres -d paperclip -c "SELECT version();"` | pg18 버전 쿼리 — host psql client로 접속 | ![psql pg18 version](assets\lesson-07\psql-pg18-version.png) |
+| `docker run -d --name paperclip-pg16 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=paperclip -p 15432:5432 -v paperclip-pg16-data:/var/lib/postgresql/data postgres:16` | postgres:16 container 실행 | ![docker run pg16](assets/lesson-07/docker-run-pg16.png) |
+| `docker ps --filter name=paperclip-pg16` | pg16 실행 상태와 port binding 확인 | ![docker ps filter pg16](assets/lesson-07/docker-ps-pg16.png) |
+| `docker logs paperclip-pg16` | pg16 DB 초기화 완료 메시지 확인 | ![docker logs pg16](assets/lesson-07/docker-logs-pg16.png) |
+| `docker run -d --name paperclip-pg18 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=paperclip -p 15433:5432 -v paperclip-pg18-data:/var/lib/postgresql postgres:18` | postgres:18 container 실행 | ![docker run pg18](assets/lesson-07/docker-run-pg18.png) |
+| `docker ps --filter name=paperclip-pg18` | pg18 실행 상태와 port binding 확인 | ![docker ps filter pg18](assets/lesson-07/docker-ps-pg18.png) |
+| `docker logs paperclip-pg18` | pg18 DB 초기화 완료 메시지 확인 | ![docker logs pg18](assets/lesson-07/docker-logs-pg18.png) |
+| `docker exec paperclip-pg16 psql -U postgres -d paperclip -c "SELECT version();"` | pg16 버전 쿼리 — Docker daemon 접근 가능할 때 | ![docker exec pg16 version](assets/lesson-07/exec-pg16-version.png) |
+| `docker exec paperclip-pg18 psql -U postgres -d paperclip -c "SELECT version();"` | pg18 버전 쿼리 — Docker daemon 접근 가능할 때 | ![docker exec pg18 version](assets/lesson-07/exec-pg18-version.png) |
+| `PGPASSWORD=postgres psql -h localhost -p 15432 -U postgres -d paperclip -c "SELECT version();"` | pg16 버전 쿼리 — host psql client로 접속 | ![psql pg16 version](assets/lesson-07/psql-pg16-version.png) |
+| `PGPASSWORD=postgres psql -h localhost -p 15433 -U postgres -d paperclip -c "SELECT version();"` | pg18 버전 쿼리 — host psql client로 접속 | ![psql pg18 version](assets/lesson-07/psql-pg18-version.png) |
 
 ## 확인 질문 답변
 

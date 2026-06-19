@@ -4,11 +4,11 @@
 
 | 명령/확인 | 설명 | 결과 |
 |---|---|---|
-| `mkdir -p week2/day2/tmp-bind/html` & `printf "<h1>bind mount v1</h1>" > week2/day2/tmp-bind/html/index.html` | host에 실습용 디렉토리 생성 & host에 index.html 생성 | ![mkdir & printf v1](assets\lesson-04\mkdir-printf.png) |
-| `docker run -d --name paperclip-bind-web -p 18082:80 -v "$PWD/week2/day2/tmp-bind/html:/usr/share/nginx/html:ro" nginx:alpine` | host directory를 `:ro`로 mount해서 nginx 실행 | ![run bind](assets\lesson-04\run-bind.png) |
-| `curl -s http://localhost:18082` | v1 내용 확인 | ![curl v1](assets\lesson-04\curl-v1.png) |
-| `printf "<h1>bind mount v2</h1>" > week2/day2/tmp-bind/html/index.html` & `curl -s http://localhost:18082` | host file 변경 & container 재빌드 없이 v2 내용 반영 확인 | ![printf & curl v2](assets\lesson-04\printf-curl-v2.png) |
-| `docker inspect paperclip-bind-web --format "{{ json .Mounts }}"` | mount 정보 확인 (source, destination, mode) | ![inspect mounts](assets\lesson-04\inspect-mounts.png) |
+| `mkdir -p week2/day2/tmp-bind/html` & `printf "<h1>bind mount v1</h1>" > week2/day2/tmp-bind/html/index.html` | host에 실습용 디렉토리 생성 & host에 index.html 생성 | ![mkdir & printf v1](assets/lesson-04/mkdir-printf.png) |
+| `docker run -d --name paperclip-bind-web -p 18082:80 -v "$PWD/week2/day2/tmp-bind/html:/usr/share/nginx/html:ro" nginx:alpine` | host directory를 `:ro`로 mount해서 nginx 실행 | ![run bind](assets/lesson-04/run-bind.png) |
+| `curl -s http://localhost:18082` | v1 내용 확인 | ![curl v1](assets/lesson-04/curl-v1.png) |
+| `printf "<h1>bind mount v2</h1>" > week2/day2/tmp-bind/html/index.html` & `curl -s http://localhost:18082` | host file 변경 & container 재빌드 없이 v2 내용 반영 확인 | ![printf & curl v2](assets/lesson-04/printf-curl-v2.png) |
+| `docker inspect paperclip-bind-web --format "{{ json .Mounts }}"` | mount 정보 확인 (source, destination, mode) | ![inspect mounts](assets/lesson-04/inspect-mounts.png) |
 
 ## 확인 질문 답변
 

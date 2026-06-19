@@ -4,11 +4,11 @@
 
 | 명령 | 설명 | 결과 |
 |---|---|---|
-| `docker tag paperclip-static-site:day3 paperclip-static-site:day3-reviewed` | 검수 완료 tag 추가 | ![tag-reviewed](assets\lesson-07\tag-reviewed.png) |
-| `docker tag paperclip-static-site:day3 paperclip-static-site:v1.0.0` | version tag 추가 | ![tag-v1](assets\lesson-07\tag-v1.png) |
-| `docker tag paperclip-static-site:day3 paperclip-static-site:staging` | 환경 tag 추가 | ![tag-staging](assets\lesson-07\tag-staging.png) |
-| `docker images paperclip-static-site` | 전체 tag 목록 확인 | ![images](assets\lesson-07\images.png) |
-| `docker image inspect paperclip-static-site:day3-reviewed --format "{{json .RepoTags}} {{json .RepoDigests}}"` | tag와 digest 확인 | ![inspect](assets\lesson-07\inspect.png) |
+| `docker tag paperclip-static-site:day3 paperclip-static-site:day3-reviewed` | 검수 완료 tag 추가 | ![tag-reviewed](assets/lesson-07/tag-reviewed.png) |
+| `docker tag paperclip-static-site:day3 paperclip-static-site:v1.0.0` | version tag 추가 | ![tag-v1](assets/lesson-07/tag-v1.png) |
+| `docker tag paperclip-static-site:day3 paperclip-static-site:staging` | 환경 tag 추가 | ![tag-staging](assets/lesson-07/tag-staging.png) |
+| `docker images paperclip-static-site` | 전체 tag 목록 확인 | ![images](assets/lesson-07/images.png) |
+| `docker image inspect paperclip-static-site:day3-reviewed --format "{{json .RepoTags}} {{json .RepoDigests}}"` | tag와 digest 확인 | ![inspect](assets/lesson-07/inspect.png) |
 
 ## 확인 질문 답변
 

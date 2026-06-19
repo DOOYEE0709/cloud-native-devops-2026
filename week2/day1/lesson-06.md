@@ -4,9 +4,9 @@
 
 | 명령/확인 | 설명 | 결과 |
 |---|---|---|
-| `psql --version` | PostgreSQL client/server 설치 여부 확인 | ![psql --version](assets\lesson-06\psql-version.png) |
-| `pg_isready` | local PostgreSQL server 실행 여부 확인 | ![pg_isready](assets\lesson-06\pg-isready.png) |
-| `lsof -i :5432` | host port 5432 점유 여부 확인 (macOS/Linux) | ![lsof -i :5432](assets\lesson-06\lsof-i-5432.png) |
+| `psql --version` | PostgreSQL client/server 설치 여부 확인 | ![psql --version](assets/lesson-06/psql-version.png) |
+| `pg_isready` | local PostgreSQL server 실행 여부 확인 | ![pg_isready](assets/lesson-06/pg-isready.png) |
+| `lsof -i :5432` | host port 5432 점유 여부 확인 (macOS/Linux) | ![lsof -i :5432](assets/lesson-06/lsof-i-5432.png) |
 
 ## 확인 질문 답변
 

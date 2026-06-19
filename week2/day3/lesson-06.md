@@ -7,27 +7,27 @@
 | 명령 | 설명 | 결과 |
 |---|---|---|
 | `rm -f week2/day3/labs/static-site-broken/index.html` | index.html 제거해 고의로 실패 조건 만들기 | |
-| `docker build -t paperclip-static-site:broken .` | 파일 없는 상태에서 build 시도 | ![build-broken](assets\lesson-06\build-broken.png) |
-| `ls -la` / `find . -maxdepth 1 -type f \| sort` | build context 파일 목록 확인 | ![find-files](assets\lesson-06\find-files.png) |
-| 복구: `docker build -t paperclip-static-site:broken-fixed .` | index.html 복구 후 재build | ![build-broken-fixed](assets\lesson-06\build-broken-fixed.png) |
+| `docker build -t paperclip-static-site:broken .` | 파일 없는 상태에서 build 시도 | ![build-broken](assets/lesson-06/build-broken.png) |
+| `ls -la` / `find . -maxdepth 1 -type f \| sort` | build context 파일 목록 확인 | ![find-files](assets/lesson-06/find-files.png) |
+| 복구: `docker build -t paperclip-static-site:broken-fixed .` | index.html 복구 후 재build | ![build-broken-fixed](assets/lesson-06/build-broken-fixed.png) |
 
 ### 실패 2: Wrong port (verify 단계)
 
 | 명령 | 설명 | 결과 |
 |---|---|---|
-| `docker run -d --name paperclip-day3-static-wrong -p 18084:8080 paperclip-static-site:day3` | 잘못된 container port(8080)로 실행 | ![run-wrong-port](assets\lesson-06\run-wrong-port.png) |
-| `docker ps -a --filter name=paperclip-day3-static-wrong` | PORTS 컬럼 확인 | ![ps-wrong-port](assets\lesson-06\ps-wrong-port.png) |
-| `curl -I http://localhost:18084` | HTTP 응답 확인 (실패 기대) | ![curl-wrong-port-fail](assets\lesson-06\curl-wrong-port-fail.png) |
-| 복구: `docker run -d --name paperclip-day3-static-fixed -p 18084:80 paperclip-static-site:day3` | 올바른 container port(80)로 재실행 | ![run-fixed-port](assets\lesson-06\run-fixed-port.png) |
-| `curl -I http://localhost:18084` | HTTP 응답 확인 (성공 기대) | ![curl-fixed-port](assets\lesson-06\curl-fixed-port.png) |
+| `docker run -d --name paperclip-day3-static-wrong -p 18084:8080 paperclip-static-site:day3` | 잘못된 container port(8080)로 실행 | ![run-wrong-port](assets/lesson-06/run-wrong-port.png) |
+| `docker ps -a --filter name=paperclip-day3-static-wrong` | PORTS 컬럼 확인 | ![ps-wrong-port](assets/lesson-06/ps-wrong-port.png) |
+| `curl -I http://localhost:18084` | HTTP 응답 확인 (실패 기대) | ![curl-wrong-port-fail](assets/lesson-06/curl-wrong-port-fail.png) |
+| 복구: `docker run -d --name paperclip-day3-static-fixed -p 18084:80 paperclip-static-site:day3` | 올바른 container port(80)로 재실행 | ![run-fixed-port](assets/lesson-06/run-fixed-port.png) |
+| `curl -I http://localhost:18084` | HTTP 응답 확인 (성공 기대) | ![curl-fixed-port](assets/lesson-06/curl-fixed-port.png) |
 
 ### 실패 3: Wrong CMD (run 단계)
 
 | 명령 | 설명 | 결과 |
 |---|---|---|
-| `docker build -f Dockerfile.bad-cmd -t paperclip-static-site:bad-cmd .` | CMD를 `nginx-bad-command`로 바꾼 Dockerfile로 build | ![build-bad-cmd](assets\lesson-06\build-bad-cmd.png) |
-| `docker run -d --name paperclip-day3-bad-cmd paperclip-static-site:bad-cmd` → `docker ps -a --filter name=paperclip-day3-bad-cmd` → `docker logs paperclip-day3-bad-cmd --tail 30` | 실행 시도 → Exited 확인 → 실패 로그 확인 | ![run-ps-logs-bad-cmd](assets\lesson-06\run-ps-logs-bad-cmd.png) |
-| `docker image inspect paperclip-static-site:bad-cmd --format "{{json .Config.Cmd}}"` | image에 설정된 CMD 확인 | ![inspect-bad-cmd](assets\lesson-06\inspect-bad-cmd.png) |
+| `docker build -f Dockerfile.bad-cmd -t paperclip-static-site:bad-cmd .` | CMD를 `nginx-bad-command`로 바꾼 Dockerfile로 build | ![build-bad-cmd](assets/lesson-06/build-bad-cmd.png) |
+| `docker run -d --name paperclip-day3-bad-cmd paperclip-static-site:bad-cmd` → `docker ps -a --filter name=paperclip-day3-bad-cmd` → `docker logs paperclip-day3-bad-cmd --tail 30` | 실행 시도 → Exited 확인 → 실패 로그 확인 | ![run-ps-logs-bad-cmd](assets/lesson-06/run-ps-logs-bad-cmd.png) |
+| `docker image inspect paperclip-static-site:bad-cmd --format "{{json .Config.Cmd}}"` | image에 설정된 CMD 확인 | ![inspect-bad-cmd](assets/lesson-06/inspect-bad-cmd.png) |
 
 ### 실패 4: Bloated context (build hygiene)
 
@@ -36,8 +36,8 @@
 | `mkdir -p node_modules __pycache__ dist build coverage tmp` | 불필요 directory 생성 | X |
 | `printf "DO_NOT_COMMIT_TOKEN=example" > .env` | secret 파일 생성 | X |
 | `du -sh .` | build context 전체 크기 확인 | X |
-| `find . -maxdepth 2 -type f \| sort` | context 안 파일 목록 확인 | ![find-bloated](assets\lesson-06\find-bloated.png) |
-| `sed -n '1,160p' .dockerignore` | .dockerignore 패턴 확인 | ![dockerignore](assets\lesson-06\dockerignore.png) |
+| `find . -maxdepth 2 -type f \| sort` | context 안 파일 목록 확인 | ![find-bloated](assets/lesson-06/find-bloated.png) |
+| `sed -n '1,160p' .dockerignore` | .dockerignore 패턴 확인 | ![dockerignore](assets/lesson-06/dockerignore.png) |
 | 복구: `rm -rf .env node_modules __pycache__ dist build coverage tmp` | 생성한 파일 정리 | X |
 
 ## 확인 질문 답변

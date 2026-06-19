@@ -4,13 +4,13 @@
 
 | 명령/확인 | 설명 | 결과 |
 |---|---|---|
-| `docker volume create paperclip-pg16-data` | named volume 생성 | ![volume create](assets\lesson-02\volume-create.png) |
-| `docker volume ls \| grep paperclip-pg16-data` | volume 생성 확인 | ![volume ls](assets\lesson-02\volume-ls.png) |
-| `docker run -d --name paperclip-pg16 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=paperclip -p 15432:5432 -v paperclip-pg16-data:/var/lib/postgresql/data postgres:16` | volume을 mount해서 container 실행 | ![run with volume](assets\lesson-02\run-with-volume.png) |
-| `docker exec paperclip-pg16 psql -U postgres -d paperclip -c "CREATE TABLE IF NOT EXISTS notes(id serial PRIMARY KEY, body text); INSERT INTO notes(body) VALUES ('volume keeps data'); SELECT * FROM notes;"` | table 생성 및 row 삽입 | ![exec insert select](assets\lesson-02\exec-insert-select.png) |
-| `docker stop paperclip-pg16` && `docker rm paperclip-pg16` | container 삭제 (volume은 남음) | ![stop rm](assets\lesson-02\stop-rm.png) |
-| `docker run -d --name paperclip-pg16-v2 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=paperclip -p 15432:5432 -v paperclip-pg16-data:/var/lib/postgresql/data postgres:16` | 같은 volume으로 새 container 실행 | ![run v2](assets\lesson-02\run-v2.png) |
-| `docker exec paperclip-pg16-v2 psql -U postgres -d paperclip -c "SELECT * FROM notes;"` | 이전 row가 남아 있는지 확인 | ![select v2](assets\lesson-02\select-v2.png) |
+| `docker volume create paperclip-pg16-data` | named volume 생성 | ![volume create](assets/lesson-02/volume-create.png) |
+| `docker volume ls \| grep paperclip-pg16-data` | volume 생성 확인 | ![volume ls](assets/lesson-02/volume-ls.png) |
+| `docker run -d --name paperclip-pg16 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=paperclip -p 15432:5432 -v paperclip-pg16-data:/var/lib/postgresql/data postgres:16` | volume을 mount해서 container 실행 | ![run with volume](assets/lesson-02/run-with-volume.png) |
+| `docker exec paperclip-pg16 psql -U postgres -d paperclip -c "CREATE TABLE IF NOT EXISTS notes(id serial PRIMARY KEY, body text); INSERT INTO notes(body) VALUES ('volume keeps data'); SELECT * FROM notes;"` | table 생성 및 row 삽입 | ![exec insert select](assets/lesson-02/exec-insert-select.png) |
+| `docker stop paperclip-pg16` && `docker rm paperclip-pg16` | container 삭제 (volume은 남음) | ![stop rm](assets/lesson-02/stop-rm.png) |
+| `docker run -d --name paperclip-pg16-v2 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=paperclip -p 15432:5432 -v paperclip-pg16-data:/var/lib/postgresql/data postgres:16` | 같은 volume으로 새 container 실행 | ![run v2](assets/lesson-02/run-v2.png) |
+| `docker exec paperclip-pg16-v2 psql -U postgres -d paperclip -c "SELECT * FROM notes;"` | 이전 row가 남아 있는지 확인 | ![select v2](assets/lesson-02/select-v2.png) |
 
 ## 확인 질문 답변
 
