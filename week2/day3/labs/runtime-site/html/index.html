@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Week 2 Day 3 Runtime Site</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #f7f9fb;
+        color: #172033;
+      }
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 56px 24px;
+      }
+      .badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 6px;
+        background: #dff3ea;
+        color: #126143;
+        font-weight: 700;
+      }
+      h1 {
+        font-size: 34px;
+        margin: 20px 0 12px;
+      }
+      p {
+        font-size: 18px;
+        line-height: 1.65;
+      }
+      code {
+        background: #e9eef5;
+        padding: 2px 5px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <span class="badge">runtime-site v1</span>
+      <h1>Day 3는 실행 옵션을 관찰합니다</h1>
+      <p>
+        이 파일은 host disk에 있고, nginx container가 bind mount로 읽어 제공합니다.
+        port binding, bind mount, logs, cleanup에서 헷갈리기 쉬운 지점을 함께 확인합니다.
+      </p>
+      <p>정상 확인 문구: <code>runtime-site-v1</code></p>
+    </main>
+  </body>
+</html>

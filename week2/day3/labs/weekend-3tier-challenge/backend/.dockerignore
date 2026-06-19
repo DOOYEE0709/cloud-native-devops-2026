@@ -1,0 +1,12 @@
+.env
+.env.*
+__pycache__
+*.pyc
+.pytest_cache
+node_modules
+npm-debug.log
+.venv
+venv
+*.log
+.git
+.DS_Store

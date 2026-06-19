@@ -1,0 +1,7 @@
+ARG BASE_IMAGE=nginx:stable-alpine
+FROM ${BASE_IMAGE}
+WORKDIR /usr/share/nginx/html
+COPY index.html ./index.html
+COPY styles.css ./styles.css
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

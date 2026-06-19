@@ -1,0 +1,12 @@
+.git
+*.log
+.env
+.env.*
+__pycache__/
+*.pyc
+.pytest_cache/
+node_modules/
+dist/
+build/
+coverage/
+tmp/
