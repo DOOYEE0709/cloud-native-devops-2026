@@ -1,0 +1,37 @@
+services:
+  web:
+    image: nginx:1.27-alpine # 어떤 container image로 실행할지 결정한다.
+    ports:
+      - "18080:80" # host 18080 -> container 80으로 공개한다.
+    volumes:
+      - ./html:/usr/share/nginx/html:ro # host의 ./html을 container 안 nginx 경로에 읽기 전용으로 붙인다.
+    depends_on:
+      - api # api service를 먼저 시작하라는 실행 순서 힌트다.
+    networks:
+      - public_net # 외부 traffic을 받는 영역
+      - app_net # backend service와 통신하는 영역
+
+  api:
+    image: node:20-alpine
+    environment:
+      DB_HOST: db # container끼리는 localhost가 아니라 service name으로 만난다.
+      DB_PORT: "5432"
+    networks:
+      - app_net
+      - data_net
+
+  db:
+    image: postgres:16
+    volumes:
+      - pgdata:/var/lib/postgresql/data # DB data는 container가 아니라 named volume에 보존한다.
+    networks:
+      - data_net # DB는 data 영역에만 둔다.
+
+volumes:
+  pgdata:
+    # docker compose down만으로는 지워지지 않는다.
+
+networks:
+  public_net:
+  app_net:
+  data_net:
