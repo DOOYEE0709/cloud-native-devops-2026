@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>200 OK Check</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main>
+    <h1>200 OK 확인</h1>
+    <p>이 화면은 backend의 <code>/health</code>를 호출하고 HTTP status와 body만 확인한다.</p>
+    <section id="result" class="panel">checking...</section>
+    <nav><a href="./items.html">JSON list 확인으로 이동</a></nav>
+  </main>
+  <script src="./shared.js"></script>
+  <script>
+    const result = document.querySelector("#result");
+    fetch(`${apiBase()}/health`)
+      .then(async (response) => {
+        const text = await response.text();
+        result.className = response.ok ? "panel ok" : "panel fail";
+        result.innerHTML = `<strong>status=${response.status}</strong><pre>${text}</pre>`;
+      })
+      .catch((error) => {
+        result.className = "panel fail";
+        result.textContent = error.message;
+      });
+  </script>
+</body>
+</html>
+

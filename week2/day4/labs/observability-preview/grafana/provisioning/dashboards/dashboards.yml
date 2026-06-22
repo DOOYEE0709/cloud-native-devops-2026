@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: W2D4 Observability Preview
+    orgId: 1
+    folder: Paperclip Labs
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /etc/grafana/provisioning/dashboards

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JSON List Check</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main>
+    <h1>JSON list 확인</h1>
+    <p>이 화면은 backend의 <code>/api/items</code>를 호출하고 JSON으로 파싱한 뒤 list를 렌더링한다.</p>
+    <section id="result" class="panel">checking...</section>
+    <nav><a href="./ok.html">200 OK 확인으로 이동</a></nav>
+  </main>
+  <script src="./shared.js"></script>
+  <script>
+    const result = document.querySelector("#result");
+    fetch(`${apiBase()}/api/items`)
+      .then(async (response) => {
+        const data = await response.json();
+        const items = data.items.map((item) => `<li>${item.id}. ${item.name}</li>`).join("");
+        result.className = "panel ok";
+        result.innerHTML = `<strong>status=${response.status}</strong><ul>${items}</ul>`;
+      })
+      .catch((error) => {
+        result.className = "panel fail";
+        result.innerHTML = [
+          "<strong>JSON parse failed</strong>",
+          `<pre>${escapeHtml(error.message)}</pre>`,
+          "<p>backend가 200을 돌려줘도 frontend가 기대한 JSON 계약을 만족하지 못하면 서비스 정상으로 볼 수 없다.</p>"
+        ].join("");
+      });
+  </script>
+</body>
+</html>
+
