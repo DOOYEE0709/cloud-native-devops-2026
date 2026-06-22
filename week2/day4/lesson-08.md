@@ -57,6 +57,17 @@ Loki/Grafana          : log를 query하고 탐색한다
 
 흐름: **cAdvisor → Prometheus**(metrics), **promtail → Loki**(logs), 그리고 **Grafana가 둘을 함께** 본다. 단, **수집원인 cAdvisor·promtail은 선택 심화**다 — host data root를 읽어야 해서 환경에 따라 막힌다. 그래서 기본 실행에서는 Prometheus/Loki/Grafana가 떠도 container metrics·Docker log 수집은 비어 있을 수 있다.
 
+수집 방향이 metrics와 logs가 반대인 게 포인트다.
+
+| | metrics | logs |
+|---|---|---|
+| 수집원 | cAdvisor | promtail |
+| 저장/질의 | Prometheus | Loki |
+| 방향 | **Prometheus가 pull** (가서 긁어옴) | **promtail이 push** (Loki로 밀어넣음) |
+| 시각화 | Grafana (둘 다 한 화면) | |
+
+즉 Prometheus는 cAdvisor에 주기적으로 **가서 당겨오고(pull)**, 로그는 promtail이 Loki로 **밀어넣는다(push)**. 그래서 Prometheus 쪽은 "긁을 대상(target)이 살아있나"를 `up`으로 확인하고, 로그 쪽은 promtail이 제대로 보내고 있나를 본다.
+
 ### Impact drill — snapshot vs time series
 
 CPU spike를 일부러 만들고 `docker stats`와 Prometheus를 비교하는 게 이 교시의 핵심 체험이다.
