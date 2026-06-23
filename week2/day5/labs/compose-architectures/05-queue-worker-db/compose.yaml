@@ -1,0 +1,54 @@
+services:
+  message-api:
+    image: node:20-alpine
+    working_dir: /app
+    command: ["node", "server.js"]
+    ports:
+      - "18105:3000"
+    volumes:
+      - ./apps/message-api:/app:ro
+    environment:
+      PORT: 3000
+      REDIS_HOST: queue
+    depends_on:
+      - queue
+    networks:
+      - public_net
+      - queue_net
+
+  queue:
+    image: redis:7-alpine
+    networks:
+      - queue_net
+
+  worker:
+    image: redis:7-alpine
+    depends_on:
+      - queue
+    command:
+      - sh
+      - -c
+      - |
+        echo "worker waiting for jobs"
+        while true; do redis-cli -h queue BRPOP jobs 0; done
+    networks:
+      - queue_net
+      - data_net
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: jobs
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - data_net
+
+volumes:
+  pgdata:
+
+networks:
+  public_net:
+  queue_net:
+  data_net:

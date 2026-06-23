@@ -1,0 +1,66 @@
+services:
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "18088:80"
+    volumes:
+      - ./html:/usr/share/nginx/html:ro
+    depends_on:
+      - redis
+      - config-api
+    networks:
+      - public_net
+      - app_net
+
+  config-api:
+    image: node:20-alpine
+    working_dir: /app
+    command: ["node", "server.js"]
+    ports:
+      - "18103:3000"
+    volumes:
+      - ./apps/config-api:/app:ro
+    environment:
+      PORT: 3000
+      API_BASE_URL: http://localhost:18101
+      FEATURE_NEW_CHECKOUT: "true"
+      FEATURE_AI_REVIEW: "false"
+    networks:
+      - public_net
+      - app_net
+      - cache_net
+
+  redis:
+    image: redis:7-alpine
+    networks:
+      - cache_net
+
+  cache-writer:
+    image: redis:7-alpine
+    depends_on:
+      - redis
+    command:
+      - sh
+      - -c
+      - |
+        while true; do
+          redis-cli -h redis SET compose:cache "hit-from-cache-writer"
+          redis-cli -h redis GET compose:cache
+          sleep 5
+        done
+    networks:
+      - cache_net
+
+  redis-cli:
+    image: redis:7-alpine
+    profiles: ["tool"]
+    depends_on:
+      - redis
+    command: ["redis-cli", "-h", "redis", "PING"]
+    networks:
+      - cache_net
+
+networks:
+  public_net:
+  app_net:
+  cache_net:
