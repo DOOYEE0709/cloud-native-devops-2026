@@ -91,6 +91,17 @@ container끼리는 `localhost`가 아니라 service name으로 만난다. 이 la
 
 > 컨테이너는 `-`(하이픈), 네트워크·볼륨은 `_`(언더스코어)로 붙는다 — Compose 버전 관례 차이다.
 
+**`-1`이 항상 1인 이유 — 같은 서비스를 여러 개 띄우면 번호가 늘어난다:** 컨테이너 이름은 유일해야 하는데, 같은 service를 여러 개 만들면 이름이 다 똑같아져 충돌한다. 그래서 Compose가 뒤에 번호를 붙여 구분한다. 지금은 service당 1개라 전부 `-1`이지만, `--scale`로 늘리면 `-2`, `-3`이 붙는다.
+
+```bash
+docker compose up -d --scale catalog-api=3
+# → day5-catalog-api-1
+#   day5-catalog-api-2
+#   day5-catalog-api-3
+```
+
+이게 바로 **scale out**(같은 service의 컨테이너를 번호로 늘리기)이다. service name(`catalog-api`)은 셋 다 같지만 각각 별개 프로세스라 번호로 구분된다. connection pool처럼 instance마다 따로 잡는 자원이 이때 instance 수만큼 곱해진다.
+
 프로젝트 이름을 폴더명 말고 직접 지정하려면:
 
 | 방법 | 예 |
