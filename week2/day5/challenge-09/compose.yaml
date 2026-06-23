@@ -1,0 +1,94 @@
+# 9세션 챌린지 — Set D: Event Processing Mini Platform (직접 설계)
+# keywords: ingest-api, redis-queue, processor-worker, result-api, postgres
+# network: public_net / queue_net / data_net
+#
+# 흐름:
+#   curl → ingest-api → redis-queue(LPUSH events)
+#   processor-worker → redis-queue(BRPOP) → postgres(api.results INSERT)
+#   curl → result-api(PostgREST) → postgres(api.results SELECT)
+#
+# 규칙 준수: DB/redis는 host 미공개 / 내부는 service name으로 / network 3개 분리
+
+services:
+  # 쓰기 진입점: 이벤트를 받아 queue에 적재 (producer)
+  ingest-api:
+    image: node:20-alpine
+    working_dir: /app
+    command: ["node", "server.js"]
+    ports:
+      - "18120:3000"               # curl 진입점 (이벤트 ingest)
+    volumes:
+      - ./apps/ingest-api:/app:ro
+    environment:
+      PORT: 3000
+      REDIS_HOST: redis-queue       # service name으로 redis 접근
+    depends_on:
+      - redis-queue
+    networks:
+      - public_net
+      - queue_net
+
+  # queue: 이벤트 임시 보관
+  redis-queue:
+    image: redis:7-alpine
+    networks:
+      - queue_net                   # host 미공개
+
+  # consumer: queue에서 꺼내 postgres에 결과 기록 (CPU 부하 후보)
+  processor-worker:
+    image: redis:7-alpine
+    depends_on:
+      - redis-queue
+      - db
+    command:
+      - sh
+      - -c
+      - |
+        apk add --no-cache postgresql-client >/dev/null 2>&1
+        until pg_isready -h db -U postgres -d app; do sleep 1; done
+        echo "processor-worker ready"
+        while true; do
+          event=$$(redis-cli -h redis-queue BRPOP events 0 | tail -1)
+          PGPASSWORD=postgres psql -h db -U postgres -d app \
+            -c "INSERT INTO api.results(event) VALUES ('$$event');"
+          echo "processed: $$event"
+        done
+    networks:
+      - queue_net                   # redis에서 꺼내고
+      - data_net                    # db에 쓴다
+
+  # 읽기 진입점: 처리 결과를 REST로 노출 (PostgREST, 코드 없음)
+  result-api:
+    image: postgrest/postgrest:v12.2.8
+    ports:
+      - "18121:3000"               # curl 진입점 (결과 조회)
+    environment:
+      PGRST_DB_URI: postgres://app_user:app_password@db:5432/app
+      PGRST_DB_SCHEMAS: api
+      PGRST_DB_ANON_ROLE: web_anon
+      PGRST_OPENAPI_SERVER_PROXY_URI: http://localhost:18121
+    depends_on:
+      - db
+    networks:
+      - public_net                  # curl
+      - data_net                    # db
+
+  # stateful: PostgreSQL (host 미공개, named volume)
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - data_net
+
+volumes:
+  pgdata:
+
+networks:
+  public_net:
+  queue_net:
+  data_net:
