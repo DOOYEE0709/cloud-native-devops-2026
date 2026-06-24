@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Week 3 MSA Demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.5; }
+    code, pre { background: #f4f4f4; padding: .2rem .35rem; }
+    .status { border: 1px solid #ccc; padding: 1rem; max-width: 780px; }
+  </style>
+</head>
+<body>
+  <h1>Week 3 MSA Demo</h1>
+  <p>frontend는 사용자 진입점이고, <code>/api/status</code> 요청을 api service로 proxy한다.</p>
+  <div class="status">
+    <h2>API Status</h2>
+    <pre id="status">loading...</pre>
+  </div>
+  <script>
+    fetch('/api/status', { headers: { 'x-request-id': `browser-${Date.now()}` } })
+      .then((response) => response.json())
+      .then((data) => { document.getElementById('status').textContent = JSON.stringify(data, null, 2); })
+      .catch((error) => { document.getElementById('status').textContent = `API request failed: ${error}`; });
+  </script>
+</body>
+</html>
