@@ -10,6 +10,8 @@ DB_DSN = os.environ.get("DB_DSN", "postgresql://paperclip:paperclip-local-only@d
 REDIS_HOST = os.environ.get("REDIS_HOST", "redis")
 REDIS_PORT = int(os.environ.get("REDIS_PORT", "6379"))
 QUEUE_NAME = os.environ.get("QUEUE_NAME", "order-events")
+POLL_INTERVAL_SECONDS = float(os.environ.get("ORDER_WORKER_POLL_SECONDS", "2"))
+MESSAGE_VISIBILITY_SECONDS = float(os.environ.get("ORDER_WORKER_MESSAGE_VISIBILITY_SECONDS", "10"))
 
 
 def log(event, request_id, **fields):
@@ -61,15 +63,29 @@ log("starting", "system", redis=REDIS_HOST, queue=QUEUE_NAME)
 
 while True:
     try:
-        _, payload = client.brpop(QUEUE_NAME, timeout=5)
+        time.sleep(POLL_INTERVAL_SECONDS)
+        queue_length = client.llen(QUEUE_NAME)
+        if queue_length == 0:
+            log("queue_idle", f"worker-{int(time.time())}", queue=QUEUE_NAME)
+            continue
+        log(
+            "queue_message_visible",
+            f"worker-{int(time.time())}",
+            queue=QUEUE_NAME,
+            queue_length=queue_length,
+            visibility_seconds=MESSAGE_VISIBILITY_SECONDS,
+        )
+        time.sleep(MESSAGE_VISIBILITY_SECONDS)
+        payload = client.rpop(QUEUE_NAME)
+        if payload is None:
+            log("queue_empty_after_wait", f"worker-{int(time.time())}", queue=QUEUE_NAME)
+            continue
         event = json.loads(payload)
         request_id = event.get("request_id", f"worker-{int(time.time())}")
         order_id = event["order_id"]
-        log("order_event_received", request_id, order_id=order_id)
+        log("order_event_received", request_id, order_id=order_id, poll_interval_seconds=POLL_INTERVAL_SECONDS)
         process_order(order_id, request_id)
         log("order_processed", request_id, order_id=order_id)
-    except TypeError:
-        log("queue_idle", f"worker-{int(time.time())}", queue=QUEUE_NAME)
     except Exception as exc:
         log("worker_error", f"worker-{int(time.time())}", error=str(exc))
         time.sleep(3)

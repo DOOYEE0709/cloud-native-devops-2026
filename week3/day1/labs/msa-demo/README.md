@@ -23,8 +23,12 @@ docker compose ps
 curl -s http://localhost:18083/api/status
 curl -s http://localhost:18120/api/catalog/products
 curl -s -X POST -H 'x-request-id: demo-order-001' http://localhost:18121/api/orders
+docker compose exec redis redis-cli LLEN order-events
+docker compose exec redis redis-cli LRANGE order-events 0 -1
 curl -s http://localhost:18121/api/orders
 ```
+
+`order-worker`는 교육용으로 `ORDER_WORKER_POLL_SECONDS=2`초마다 queue를 확인하고, message를 발견하면 `ORDER_WORKER_MESSAGE_VISIBILITY_SECONDS=10`초 동안 일부러 queue에 남겨둔 뒤 소비한다. 주문을 만든 직후 `LRANGE order-events 0 -1`을 실행하면 worker가 소비하기 전 queue message를 직접 볼 수 있다.
 
 Browser check:
 - http://localhost:18083

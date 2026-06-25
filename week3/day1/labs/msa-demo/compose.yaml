@@ -66,6 +66,8 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       QUEUE_NAME: order-events
+      ORDER_WORKER_POLL_SECONDS: 2
+      ORDER_WORKER_MESSAGE_VISIBILITY_SECONDS: 10
     ports:
       - "18121:8082"
     depends_on:
