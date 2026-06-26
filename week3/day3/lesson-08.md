@@ -36,6 +36,16 @@ branch → PR → CI → image push → registry 확인 → deploy
 ### Kubernetes로 이어지는 연결
 - Docker image tag → Deployment image / Docker Hub → imagePull / GitHub Environment → dev·stage·prod deploy gate / protected branch → production manifest 보호 / Actions → kubectl·helm deploy / GitHub Secrets ↔ Kubernetes Secrets 구분.
 
+### 보강 — 멀티 아키텍처 빌드 (arm64 대응)
+- 배경: `v0.1.0`은 amd64 runner에서 단일 빌드 → Apple Silicon(arm64) Mac에서 그냥 pull 시 `no matching manifest`. 임시로 `--platform linux/amd64`로 우회했음.
+- 근본 해결: workflow에 두 가지 추가.
+  - `docker/setup-qemu-action@v3` (buildx 앞) — amd64 runner에서 arm64 에뮬레이트.
+  - 최종 push 단계에 `platforms: linux/amd64,linux/arm64` — 두 아키텍처를 manifest list로 push.
+  - 주의: DAST용 `Build local image for DAST`(`load: true`)는 단일 플랫폼만 가능 → amd64 그대로 유지(멀티는 push 단계에만).
+- 효과: 새 tag로 다시 돌리면 amd64+arm64 모두 올라가, arm64 Mac에서 `--platform` 없이 그냥 pull 가능.
+- 비용: arm64는 에뮬레이션이라 빌드 시간↑.
+- 적용 버전: app 코드 변경 없이 빌드/배포 방식만 개선 → SemVer PATCH인 `v0.1.1` 권장. (재배포는 새 tag push 필요)
+
 ### 구름 EXP 배움일기 (W3D3S8)
 ```markdown
 # W3D3S8 Learning Journal
