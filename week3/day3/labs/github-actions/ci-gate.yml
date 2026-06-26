@@ -1,0 +1,31 @@
+name: w3d3-ci-gate-demo
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Show evidence context
+        run: |
+          pwd
+          git status --short
+          git log --oneline -3
+
+      - name: Check shell syntax
+        run: |
+          bash -n week3/day3/labs/ci-gate-demo/app.sh
+          bash -n week3/day3/labs/ci-gate-demo/tests/smoke_test.sh
+
+      - name: Run smoke test
+        run: |
+          bash week3/day3/labs/ci-gate-demo/tests/smoke_test.sh

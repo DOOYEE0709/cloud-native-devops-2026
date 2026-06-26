@@ -1,0 +1,11 @@
+FROM python:3.12-alpine
+
+WORKDIR /app
+COPY app.py .
+
+ARG APP_VERSION=0.1.0
+ENV PORT=8080
+ENV APP_VERSION=${APP_VERSION}
+EXPOSE 8080
+
+CMD ["python", "app.py"]

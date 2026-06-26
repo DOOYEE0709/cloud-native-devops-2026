@@ -1,0 +1,27 @@
+name: week3-ci
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Show repository context
+        run: |
+          pwd
+          git status --short
+          git log --oneline -3
+
+      - name: Validate Week 3 markdown exists
+        run: |
+          test -f week3/README.md
+          test -f week3/day3/hands-on-lab.md
+          find week3 -maxdepth 3 -name "*.md" | sort
+
