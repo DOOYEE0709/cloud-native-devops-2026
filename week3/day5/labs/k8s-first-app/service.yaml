@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-web
+  namespace: week3
+  labels:
+    app: hello-web
+spec:
+  type: ClusterIP
+  selector:
+    app: hello-web
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
