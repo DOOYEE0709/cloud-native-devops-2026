@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: runtime-api-bad-readiness
+  namespace: week4
+  labels:
+    app: runtime-api-bad-readiness
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: runtime-api-bad-readiness
+  template:
+    metadata:
+      labels:
+        app: runtime-api-bad-readiness
+    spec:
+      containers:
+        - name: api
+          image: hashicorp/http-echo:1.0
+          args:
+            - "-listen=:8080"
+            - "-text=running but not ready"
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /not-ready
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 2
+          resources:
+            requests:
+              cpu: 25m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+

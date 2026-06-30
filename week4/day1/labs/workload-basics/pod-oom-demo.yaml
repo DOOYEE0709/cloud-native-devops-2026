@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: oom-demo
+  namespace: week4
+  labels:
+    app: oom-demo
+spec:
+  restartPolicy: Never
+  containers:
+    - name: memory-hog
+      image: python:3.12-alpine
+      command: ["python", "-c"]
+      args:
+        - |
+          data = []
+          while True:
+              data.append("x" * 1024 * 1024)
+      resources:
+        requests:
+          cpu: 25m
+          memory: 32Mi
+        limits:
+          cpu: 100m
+          memory: 48Mi
+

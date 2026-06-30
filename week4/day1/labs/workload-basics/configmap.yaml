@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-config
+  namespace: week4
+data:
+  APP_ENV: "dev"
+  LOG_LEVEL: "debug"
+  FEATURE_GREETING: "enabled"
+  RESPONSE_MESSAGE: "hello from kubernetes runtime config"
+
