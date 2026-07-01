@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: week4
+  labels:
+    curriculum.paperclip.dev/week: "4"
+    curriculum.paperclip.dev/day: "2"
+

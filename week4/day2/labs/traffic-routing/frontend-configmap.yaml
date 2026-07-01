@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-html
+  namespace: week4
+data:
+  index.html: |
+    <!doctype html>
+    <html lang="ko">
+    <head>
+      <meta charset="utf-8">
+      <title>Paperclip W4D2 Frontend</title>
+      <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.5; }
+        code { background: #eef2ff; padding: 2px 6px; border-radius: 4px; }
+      </style>
+    </head>
+    <body>
+      <h1>Paperclip W4D2 Frontend</h1>
+      <p>Gateway API <code>/</code> path routes to the frontend service.</p>
+      <p>API path should route to <code>/api</code>.</p>
+    </body>
+    </html>

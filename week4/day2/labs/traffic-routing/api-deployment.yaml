@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: week4
+  labels:
+    app: api
+    tier: api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+        tier: api
+    spec:
+      containers:
+        - name: api
+          image: hashicorp/http-echo:1.0
+          args:
+            - "-listen=:8080"
+            - "-text={\"service\":\"api\",\"version\":\"v1\",\"status\":\"ok\"}"
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /api
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 25m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+
