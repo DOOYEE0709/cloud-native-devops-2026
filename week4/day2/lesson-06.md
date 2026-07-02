@@ -256,6 +256,44 @@ NetworkPolicy (path 제한, L3/4) ── 갈 수 있나
 ```
 - 둘 다 정상이어야 traffic 성공. envoy gateway ingress 정책을 빼면 Gateway는 Programmed여도 backend에서 drop → 502/timeout.
 
+### ingress↔from, egress↔to (키워드 짝)
+```text
+ingress:  들어옴  →  from: (source, 누구로부터 받나)
+egress:   나감    →  to:   (destination, 어디로 보내나)
+```
+- ⚠️ 방향(ingress/egress)과 붙는 키워드가 **엇갈림**: ingress에는 `from:`, egress에는 `to:`. "ingress=to"로 외우면 뒤집힘.
+- ⭐ 한 통신(frontend→api)을 열려면 **짝으로**: source의 egress(`to: api`) + destination의 ingress(`from: frontend`). default-deny 위라 한쪽만 열면 여전히 막힘.
+  - `allow-frontend-egress-to-api`: `egress` + `to: app=api`
+  - `allow-frontend-to-api`:        `ingress` + `from: app=frontend`
+
+### policy 파일 분리 컨벤션 — 정답 없음(팀 규칙)
+```text
+① all-in-one   : 한 파일에 --- 로 전부 (지금 networkpolicy-preview.yaml, 8종)
+② app별 분리   : frontend-netpol.yaml / api-netpol.yaml ...  (소유권 명확)
+③ 방향별 분리  : ingress-policies.yaml / egress-policies.yaml (방향별 리뷰)
+```
+- ⭐ 정해진 규칙 없음. 규모 커지면 보통 **default-deny는 공통 baseline 파일**로 빼고 allow는 app별로 쪼개는 조합을 많이 씀.
+
+### default-deny-all = baseline (먼저 잠그고 문 열기)
+```text
+$ kubectl -n week4 describe networkpolicy default-deny-all
+Name:         default-deny-all
+Namespace:    week4
+Created on:   2026-07-02 09:39:09 +0900 KST
+Labels:       <none>
+Annotations:  <none>
+Spec:
+  PodSelector:     <none> (Allowing the specific traffic to all pods in this namespace)
+  Allowing ingress traffic:
+    <none> (Selected pods are isolated for ingress connectivity)
+  Allowing egress traffic:
+    <none> (Selected pods are isolated for egress connectivity)
+  Policy Types: Ingress, Egress
+```
+- ⭐ NetworkPolicy는 **allowlist** → allow 규칙이 비면 곧 deny. `PodSelector: <none>`(전체) + allow 없음 = namespace 전부 차단.
+- ⭐ 정석 순서: **default-deny 먼저(baseline) → 필요한 allow만 위에 얹기.** ③-a에서 unknown Pod가 timeout난 게 이 default-deny 때문.
+- ⚠️ default-deny는 DNS(53)까지 막으므로 `allow-dns-egress`를 baseline 짝으로 같이 둠(엄격한 CNI 기준).
+
 ## Blocker Log
 
 | 증상 | 확인한 것 |
