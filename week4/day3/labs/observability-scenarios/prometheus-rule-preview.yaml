@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: week4-observe-preview
+  namespace: week4-observe
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: week4-observe-preview
+      rules:
+        - alert: Week4ObservePodRestarting
+          expr: increase(kube_pod_container_status_restarts_total{namespace="week4-observe"}[5m]) > 0
+          for: 1m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Pod restarted in week4-observe"
+            description: "A container in week4-observe restarted recently. Check rollout, logs, and events."
+

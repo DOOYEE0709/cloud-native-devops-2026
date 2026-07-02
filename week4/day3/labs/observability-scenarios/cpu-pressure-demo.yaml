@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpu-pressure-demo
+  namespace: week4-observe
+  labels:
+    app: cpu-pressure-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpu-pressure-demo
+  template:
+    metadata:
+      labels:
+        app: cpu-pressure-demo
+    spec:
+      containers:
+        - name: cpu-loop
+          image: busybox:1.36
+          command: ["sh", "-c"]
+          args:
+            - while true; do :; done
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 100m
+              memory: 32Mi
+

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readiness-bad-demo
+  namespace: week4-observe
+  labels:
+    app: readiness-bad-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: readiness-bad-demo
+  template:
+    metadata:
+      labels:
+        app: readiness-bad-demo
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.27-alpine
+          ports:
+            - name: http
+              containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /not-ready
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 20m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
