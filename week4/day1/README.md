@@ -16,7 +16,7 @@
 
 | 파일 | 내용 |
 |---|---|
-| `lesson-01.md` ~ `lesson-08.md` | 교시별 핵심 정리·실습 확인 기록·확인 질문·notes·Blocker Log |
+| `lesson-01.md` ~ `lesson-07.md` | 교시별 핵심 정리·실습 확인 기록·확인 질문·notes·Blocker Log |
 | `labs/workload-basics/` | 운영형 Deployment·Service·ConfigMap·Secret, probe/OOM 실험 manifest |
 | `labs/helm-metrics-server/values.yaml` | kind/local 실습용 metrics-server Helm values (`--kubelet-insecure-tls`) |
 
