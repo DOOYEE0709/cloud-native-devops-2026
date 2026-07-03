@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bad-missing-owner
+  namespace: week4-security
+  labels:
+    app: bad-missing-owner
+spec:
+  containers:
+    - name: web
+      image: nginx:1.27-alpine
+      resources:
+        requests:
+          cpu: 10m
+          memory: 16Mi
+        limits:
+          cpu: 50m
+          memory: 32Mi

@@ -1,0 +1,40 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: disallow-privileged-hostpath-enforce
+  annotations:
+    policies.kyverno.io/title: Disallow privileged containers and hostPath
+    policies.kyverno.io/category: Paperclip Week4
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: disallow-privileged
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - week4-security
+      validate:
+        message: "Privileged containers are not allowed in week4-security."
+        pattern:
+          spec:
+            =(containers):
+              - =(securityContext):
+                  X(privileged): true
+    - name: disallow-hostpath
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - week4-security
+      validate:
+        message: "hostPath volumes are not allowed in week4-security."
+        pattern:
+          spec:
+            =(volumes):
+              - X(hostPath): "*"

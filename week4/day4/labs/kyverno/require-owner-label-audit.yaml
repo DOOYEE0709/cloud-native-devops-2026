@@ -1,0 +1,25 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-owner-label-audit
+  annotations:
+    policies.kyverno.io/title: Require owner label in Audit mode
+    policies.kyverno.io/category: Paperclip Week4
+spec:
+  validationFailureAction: Audit
+  background: true
+  rules:
+    - name: require-owner-label
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - week4-security
+      validate:
+        message: "Pods in week4-security must include metadata.labels.owner."
+        pattern:
+          metadata:
+            labels:
+              owner: "?*"

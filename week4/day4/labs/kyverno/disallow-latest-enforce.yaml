@@ -1,0 +1,32 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: disallow-latest-enforce
+  annotations:
+    policies.kyverno.io/title: Disallow latest tag in Enforce mode
+    policies.kyverno.io/category: Paperclip Week4
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: require-explicit-image-tag
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - week4-security
+      validate:
+        message: "Do not use image tag latest. Match the web application version or release tag."
+        foreach:
+          - list: "request.object.spec.containers"
+            deny:
+              conditions:
+                any:
+                  - key: "{{ element.image }}"
+                    operator: Equals
+                    value: "*:latest"
+                  - key: "{{ regex_match('^[^:]+$', element.image) }}"
+                    operator: Equals
+                    value: true
