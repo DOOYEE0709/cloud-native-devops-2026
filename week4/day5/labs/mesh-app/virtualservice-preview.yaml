@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: mesh-api-delay-preview
+  namespace: mesh-demo
+spec:
+  hosts:
+    - mesh-api
+  http:
+    - fault:
+        delay:
+          percentage:
+            value: 20
+          fixedDelay: 2s
+      route:
+        - destination:
+            host: mesh-api
+            port:
+              number: 8080

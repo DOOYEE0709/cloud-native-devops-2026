@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: order-delay-preview
+  namespace: mesh-msa-demo
+spec:
+  hosts:
+    - order
+  http:
+    - fault:
+        delay:
+          percentage:
+            value: 20
+          fixedDelay: 1s
+      route:
+        - destination:
+            host: order
+            port:
+              number: 8080

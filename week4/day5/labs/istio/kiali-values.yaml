@@ -1,0 +1,12 @@
+cr:
+  create: true
+  namespace: istio-system
+  spec:
+    auth:
+      strategy: anonymous
+    deployment:
+      accessible_namespaces:
+        - '**'
+    external_services:
+      prometheus:
+        url: http://kube-prometheus-stack-prometheus.monitoring:9090

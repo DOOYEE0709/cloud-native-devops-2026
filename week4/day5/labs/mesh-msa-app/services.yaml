@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bff
+  namespace: mesh-msa-demo
+  labels:
+    app: bff
+spec:
+  selector:
+    app: bff
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog
+  namespace: mesh-msa-demo
+  labels:
+    app: catalog
+spec:
+  selector:
+    app: catalog
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory
+  namespace: mesh-msa-demo
+  labels:
+    app: inventory
+spec:
+  selector:
+    app: inventory
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order
+  namespace: mesh-msa-demo
+  labels:
+    app: order
+spec:
+  selector:
+    app: order
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment
+  namespace: mesh-msa-demo
+  labels:
+    app: payment
+spec:
+  selector:
+    app: payment
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080

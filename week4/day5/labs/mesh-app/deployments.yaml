@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mesh-frontend
+  namespace: mesh-demo
+  labels:
+    app: mesh-frontend
+    owner: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mesh-frontend
+  template:
+    metadata:
+      labels:
+        app: mesh-frontend
+        owner: platform
+    spec:
+      containers:
+        - name: frontend
+          image: curlimages/curl:8.10.1
+          command: ["sh", "-c"]
+          args:
+            - |
+              while true; do
+                curl -s http://mesh-api:8080/headers >/dev/null || true
+                sleep 2
+              done
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mesh-api
+  namespace: mesh-demo
+  labels:
+    app: mesh-api
+    owner: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mesh-api
+  template:
+    metadata:
+      labels:
+        app: mesh-api
+        owner: platform
+    spec:
+      containers:
+        - name: api
+          image: docker.io/kennethreitz/httpbin
+          ports:
+            - name: http
+              containerPort: 80
+          resources:
+            requests:
+              cpu: 20m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi

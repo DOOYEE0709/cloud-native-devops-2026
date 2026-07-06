@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitops-web
+  namespace: week4-gitops
+  labels:
+    app: gitops-web
+    owner: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gitops-web
+  template:
+    metadata:
+      labels:
+        app: gitops-web
+        owner: platform
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.27-alpine
+          ports:
+            - name: http
+              containerPort: 80
+          volumeMounts:
+            - name: content
+              mountPath: /usr/share/nginx/html
+          resources:
+            requests:
+              cpu: 20m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+      volumes:
+        - name: content
+          configMap:
+            name: gitops-web-content

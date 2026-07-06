@@ -1,0 +1,386 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: mesh-msa-demo
+  labels:
+    app: frontend
+    tier: web
+    owner: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+        tier: web
+        owner: platform
+    spec:
+      containers:
+        - name: traffic-generator
+          image: curlimages/curl:8.10.1
+          command: ["sh", "-c"]
+          args:
+            - |
+              while true; do
+                date
+                curl -s --max-time 3 http://bff:8080/api/page || true
+                echo
+                curl -s --max-time 3 http://bff:8080/api/order || true
+                echo
+                sleep 2
+              done
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bff
+  namespace: mesh-msa-demo
+  labels:
+    app: bff
+    tier: api
+    owner: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bff
+  template:
+    metadata:
+      labels:
+        app: bff
+        tier: api
+        owner: platform
+    spec:
+      containers:
+        - name: app
+          image: python:3.12-alpine
+          ports:
+            - name: http
+              containerPort: 8080
+          command: ["sh", "-c"]
+          args:
+            - |
+              cat >/tmp/app.py <<'PY'
+              import json
+              import urllib.request
+              from http.server import BaseHTTPRequestHandler, HTTPServer
+
+              def fetch(url):
+                  with urllib.request.urlopen(url, timeout=2) as response:
+                      return json.loads(response.read().decode())
+
+              class Handler(BaseHTTPRequestHandler):
+                  def do_GET(self):
+                      if self.path == "/healthz":
+                          self.reply({"service": "bff", "status": "ok"})
+                          return
+                      if self.path == "/api/page":
+                          catalog = fetch("http://catalog:8080/catalog")
+                          inventory = fetch("http://inventory:8080/inventory")
+                          self.reply({"service": "bff", "page": "home", "catalog": catalog, "inventory": inventory})
+                          return
+                      if self.path == "/api/order":
+                          order = fetch("http://order:8080/orders")
+                          self.reply({"service": "bff", "order": order})
+                          return
+                      self.send_response(404)
+                      self.end_headers()
+
+                  def reply(self, payload):
+                      body = json.dumps(payload).encode()
+                      self.send_response(200)
+                      self.send_header("content-type", "application/json")
+                      self.send_header("content-length", str(len(body)))
+                      self.end_headers()
+                      self.wfile.write(body)
+
+                  def log_message(self, fmt, *args):
+                      print("bff", self.address_string(), fmt % args, flush=True)
+
+              HTTPServer(("", 8080), Handler).serve_forever()
+              PY
+              python /tmp/app.py
+          resources:
+            requests:
+              cpu: 20m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog
+  namespace: mesh-msa-demo
+  labels:
+    app: catalog
+    tier: api
+    owner: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog
+  template:
+    metadata:
+      labels:
+        app: catalog
+        tier: api
+        owner: platform
+    spec:
+      containers:
+        - name: app
+          image: python:3.12-alpine
+          ports:
+            - name: http
+              containerPort: 8080
+          command: ["sh", "-c"]
+          args:
+            - |
+              cat >/tmp/app.py <<'PY'
+              import json
+              from http.server import BaseHTTPRequestHandler, HTTPServer
+
+              class Handler(BaseHTTPRequestHandler):
+                  def do_GET(self):
+                      if self.path in ["/catalog", "/healthz"]:
+                          self.reply({"service": "catalog", "items": ["book", "keyboard", "monitor"], "status": "ok"})
+                          return
+                      self.send_response(404)
+                      self.end_headers()
+
+                  def reply(self, payload):
+                      body = json.dumps(payload).encode()
+                      self.send_response(200)
+                      self.send_header("content-type", "application/json")
+                      self.send_header("content-length", str(len(body)))
+                      self.end_headers()
+                      self.wfile.write(body)
+
+                  def log_message(self, fmt, *args):
+                      print("catalog", self.address_string(), fmt % args, flush=True)
+
+              HTTPServer(("", 8080), Handler).serve_forever()
+              PY
+              python /tmp/app.py
+          resources:
+            requests:
+              cpu: 20m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory
+  namespace: mesh-msa-demo
+  labels:
+    app: inventory
+    tier: api
+    owner: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory
+  template:
+    metadata:
+      labels:
+        app: inventory
+        tier: api
+        owner: platform
+    spec:
+      containers:
+        - name: app
+          image: python:3.12-alpine
+          ports:
+            - name: http
+              containerPort: 8080
+          command: ["sh", "-c"]
+          args:
+            - |
+              cat >/tmp/app.py <<'PY'
+              import json
+              from http.server import BaseHTTPRequestHandler, HTTPServer
+
+              class Handler(BaseHTTPRequestHandler):
+                  def do_GET(self):
+                      if self.path in ["/inventory", "/healthz"]:
+                          self.reply({"service": "inventory", "book": 12, "keyboard": 4, "monitor": 2})
+                          return
+                      self.send_response(404)
+                      self.end_headers()
+
+                  def reply(self, payload):
+                      body = json.dumps(payload).encode()
+                      self.send_response(200)
+                      self.send_header("content-type", "application/json")
+                      self.send_header("content-length", str(len(body)))
+                      self.end_headers()
+                      self.wfile.write(body)
+
+                  def log_message(self, fmt, *args):
+                      print("inventory", self.address_string(), fmt % args, flush=True)
+
+              HTTPServer(("", 8080), Handler).serve_forever()
+              PY
+              python /tmp/app.py
+          resources:
+            requests:
+              cpu: 20m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order
+  namespace: mesh-msa-demo
+  labels:
+    app: order
+    tier: api
+    owner: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order
+  template:
+    metadata:
+      labels:
+        app: order
+        tier: api
+        owner: platform
+    spec:
+      containers:
+        - name: app
+          image: python:3.12-alpine
+          ports:
+            - name: http
+              containerPort: 8080
+          command: ["sh", "-c"]
+          args:
+            - |
+              cat >/tmp/app.py <<'PY'
+              import json
+              import urllib.request
+              from http.server import BaseHTTPRequestHandler, HTTPServer
+
+              def fetch(url):
+                  with urllib.request.urlopen(url, timeout=2) as response:
+                      return json.loads(response.read().decode())
+
+              class Handler(BaseHTTPRequestHandler):
+                  def do_GET(self):
+                      if self.path == "/healthz":
+                          self.reply({"service": "order", "status": "ok"})
+                          return
+                      if self.path == "/orders":
+                          inventory = fetch("http://inventory:8080/inventory")
+                          payment = fetch("http://payment:8080/payments/authorize")
+                          self.reply({"service": "order", "orderId": "ORD-1001", "inventory": inventory, "payment": payment})
+                          return
+                      self.send_response(404)
+                      self.end_headers()
+
+                  def reply(self, payload):
+                      body = json.dumps(payload).encode()
+                      self.send_response(200)
+                      self.send_header("content-type", "application/json")
+                      self.send_header("content-length", str(len(body)))
+                      self.end_headers()
+                      self.wfile.write(body)
+
+                  def log_message(self, fmt, *args):
+                      print("order", self.address_string(), fmt % args, flush=True)
+
+              HTTPServer(("", 8080), Handler).serve_forever()
+              PY
+              python /tmp/app.py
+          resources:
+            requests:
+              cpu: 20m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment
+  namespace: mesh-msa-demo
+  labels:
+    app: payment
+    tier: api
+    owner: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment
+  template:
+    metadata:
+      labels:
+        app: payment
+        tier: api
+        owner: platform
+    spec:
+      containers:
+        - name: app
+          image: python:3.12-alpine
+          ports:
+            - name: http
+              containerPort: 8080
+          command: ["sh", "-c"]
+          args:
+            - |
+              cat >/tmp/app.py <<'PY'
+              import json
+              from http.server import BaseHTTPRequestHandler, HTTPServer
+
+              class Handler(BaseHTTPRequestHandler):
+                  def do_GET(self):
+                      if self.path in ["/payments/authorize", "/healthz"]:
+                          self.reply({"service": "payment", "approved": True, "status": "ok"})
+                          return
+                      self.send_response(404)
+                      self.end_headers()
+
+                  def reply(self, payload):
+                      body = json.dumps(payload).encode()
+                      self.send_response(200)
+                      self.send_header("content-type", "application/json")
+                      self.send_header("content-length", str(len(body)))
+                      self.end_headers()
+                      self.wfile.write(body)
+
+                  def log_message(self, fmt, *args):
+                      print("payment", self.address_string(), fmt % args, flush=True)
+
+              HTTPServer(("", 8080), Handler).serve_forever()
+              PY
+              python /tmp/app.py
+          resources:
+            requests:
+              cpu: 20m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
